@@ -1,0 +1,17 @@
+.square {
+  border: 1px solid black;
+  min-height: 30px;
+  min-width: 30px;
+}
+
+.fill-ship-position {
+  background-color: cadetblue;
+}
+
+.fill-missed-strike {
+  background-color: black;
+}
+
+.fill-ship-hit{
+  background-color: red;
+}

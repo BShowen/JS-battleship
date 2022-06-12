@@ -1,0 +1,8 @@
+.row-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 6px;
+  padding: 3px;
+  justify-content: space-evenly;
+}
