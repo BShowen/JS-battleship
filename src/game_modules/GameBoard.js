@@ -72,9 +72,17 @@ export default function GameBoard() {
     return !(_sunkenShips === _floatingShips.length);
   }
 
+  // Return true if this coordinate has not been selected.
+  // Return false if this coordinate has been previously selected.
+  // coords = [int, int]
+  function coordIsValid(coords) {
+    return !_allReceivedHits.contains([coords]);
+  }
+
   return {
     placeShip,
     receiveAttack,
     hasFloatingShips,
+    coordIsValid,
   };
 }
