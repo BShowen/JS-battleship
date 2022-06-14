@@ -17,7 +17,7 @@ export default function Square(coordinates, gameBoard, toggleTurn) {
 
   function handler() {
     if (gameBoard.receiveAttack(coords)) {
-      console.log("Direct Hit");
+      container.classList.add("fill-ship-hit");
     } else {
       container.classList.add("fill-missed-strike");
     }
@@ -26,14 +26,25 @@ export default function Square(coordinates, gameBoard, toggleTurn) {
 
   function disable() {
     container.removeEventListener("click", clickHandler);
+    _toggleShipPosition();
+  }
+
+  function _toggleShipPosition() {
+    if (gameBoard.peekShipPosition(coords)) {
+      container.classList.add("fill-ship-position");
+    }
   }
 
   function enable() {
+    // The coordinates are valid ONLY if they haven'y been selected before. This
+    // ensures that you cannot select the same square multiple times.
     if (gameBoard.coordIsValid(coords)) {
-      console.log("valid");
       container.addEventListener("click", clickHandler, { once: true });
     }
+    container.classList.remove("fill-ship-position");
   }
+
+  function toggleShip() {}
 
   return { element: container, disable, enable };
 }

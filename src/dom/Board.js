@@ -37,6 +37,11 @@ export default function Board(displayName, toggleTurn) {
     boardSquares.forEach((square) => square.enable());
   }
 
+  // coords = [[int, int], ... ,[int, int]]
+  function placeShip(coords) {
+    gameBoard.placeShip(coords);
+  }
+
   // Create the DOM board and populate the boardSquares array.
   for (let row = 0; row < 10; row++) {
     const rowElement = new Row();
@@ -47,5 +52,10 @@ export default function Board(displayName, toggleTurn) {
     }
     container.appendChild(rowElement);
   }
-  return { element: container, disableClick, enableClick };
+  return {
+    element: container,
+    disableClick,
+    enableClick,
+    placeShip,
+  };
 }
