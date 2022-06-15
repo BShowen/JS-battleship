@@ -11,6 +11,8 @@ import { HtmlElement } from "@bshowen/htmlelement";
  * Square.js
  */
 export default function Board(displayName, toggleTurn) {
+  const name = displayName;
+
   const gameBoard = new GameBoard();
   /**
    * boardSquares is populated with the squares that makeup the board in the
@@ -42,6 +44,12 @@ export default function Board(displayName, toggleTurn) {
     gameBoard.placeShip(coords);
   }
 
+  // Return true if this board has floating ships.
+  // Return false if this board does not have floating ships.
+  function isAlive() {
+    return gameBoard.hasFloatingShips();
+  }
+
   // Create the DOM board and populate the boardSquares array.
   for (let row = 0; row < 10; row++) {
     const rowElement = new Row();
@@ -63,5 +71,7 @@ export default function Board(displayName, toggleTurn) {
     disableClick,
     enableClick,
     placeShip,
+    isAlive,
+    name,
   };
 }

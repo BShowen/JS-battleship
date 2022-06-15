@@ -3,11 +3,16 @@ import "./Square.css";
 
 /**
  * coordinates = [int,int]
- * gameBoard = An instance of GameBoard passed in from index.js > Board()
- * toggleTurn = A callback passed in from Board.js and is used to toggle the
- * turn.
+ * toggleTurn, isDirectHIt, isValidCoord, isShipPosition = Are callbacks that
+ * are passed in from Board.js
  */
-export default function Square(coordinates, gameBoard, toggleTurn) {
+export default function Square(
+  coordinates,
+  toggleTurn,
+  isDirectHit,
+  isValidCoord,
+  isShipPosition
+) {
   // The coordinates of this square.
   const coords = coordinates;
 
@@ -16,7 +21,7 @@ export default function Square(coordinates, gameBoard, toggleTurn) {
   const clickHandler = handler.bind(this);
 
   function handler() {
-    if (gameBoard.receiveAttack(coords)) {
+    if (isDirectHit(coords)) {
       container.classList.add("fill-ship-hit");
     } else {
       container.classList.add("fill-missed-strike");
@@ -30,7 +35,7 @@ export default function Square(coordinates, gameBoard, toggleTurn) {
   }
 
   function _toggleShipPosition() {
-    if (gameBoard.peekShipPosition(coords)) {
+    if (isShipPosition(coords)) {
       container.classList.add("fill-ship-position");
     }
   }
@@ -38,7 +43,7 @@ export default function Square(coordinates, gameBoard, toggleTurn) {
   function enable() {
     // The coordinates are valid ONLY if they haven'y been selected before. This
     // ensures that you cannot select the same square multiple times.
-    if (gameBoard.coordIsValid(coords)) {
+    if (isValidCoord(coords)) {
       container.addEventListener("click", clickHandler, { once: true });
     }
     container.classList.remove("fill-ship-position");

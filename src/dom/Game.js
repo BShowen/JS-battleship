@@ -17,8 +17,16 @@ export default function Game() {
   }
 
   function toggleTurn() {
-    currentPlayer().disableClick();
-    nextPlayer().enableClick();
+    if (currentPlayer().isAlive()) {
+      console.log(`${currentPlayer().name}'s turn`);
+      currentPlayer().disableClick();
+      nextPlayer().enableClick();
+    } else {
+      nextPlayer();
+      console.log(`${currentPlayer().name} is the winner!`);
+      currentPlayer().disableClick();
+      nextPlayer().disableClick();
+    }
   }
 
   return { players, start: toggleTurn };
