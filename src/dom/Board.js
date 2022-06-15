@@ -46,7 +46,13 @@ export default function Board(displayName, toggleTurn) {
   for (let row = 0; row < 10; row++) {
     const rowElement = new Row();
     for (let column = 0; column < 10; column++) {
-      const square = new Square([row, column], gameBoard, toggleTurn);
+      const square = new Square(
+        [row, column],
+        toggleTurn,
+        gameBoard.receiveAttack,
+        gameBoard.coordIsValid,
+        gameBoard.isShipPosition
+      );
       boardSquares.push(square);
       rowElement.appendChild(square.element);
     }

@@ -81,7 +81,7 @@ export default function GameBoard() {
 
   //Return true if a ship is located on the passed in coordinates.
   // This method is used to show ships on the board.
-  function peekShipPosition(coords) {
+  function isShipPosition(coords) {
     return _shipCoordinates.contains([coords]);
   }
 
@@ -90,6 +90,6 @@ export default function GameBoard() {
     receiveAttack,
     hasFloatingShips,
     coordIsValid,
-    peekShipPosition,
+    isShipPosition,
   };
 }
