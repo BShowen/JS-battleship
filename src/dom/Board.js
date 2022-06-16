@@ -21,6 +21,12 @@ export default function Board(displayName, toggleTurn) {
    */
   const boardSquares = [];
 
+  /**
+   * boardRows is populated with rows of squares. This is currently used to
+   * unmount and remove rows and squares from the dom when a re-render is needed
+   */
+  const boardRows = [];
+
   const container = new HtmlElement({
     type: "div",
     classList: ["board"],
@@ -39,33 +45,49 @@ export default function Board(displayName, toggleTurn) {
     boardSquares.forEach((square) => square.enable());
   }
 
-  // coords = [[int, int], ... ,[int, int]]
-  function placeShip(coords) {
-    gameBoard.placeShip(coords);
-  }
-
   // Return true if this board has floating ships.
   // Return false if this board does not have floating ships.
   function isAlive() {
     return gameBoard.hasFloatingShips();
   }
 
-  // Create the DOM board and populate the boardSquares array.
-  for (let row = 0; row < 10; row++) {
-    const rowElement = new Row();
-    for (let column = 0; column < 10; column++) {
-      const square = new Square(
-        [row, column],
-        toggleTurn,
-        gameBoard.receiveAttack,
-        gameBoard.coordIsValid,
-        gameBoard.isShipPosition
-      );
-      boardSquares.push(square);
-      rowElement.appendChild(square.element);
+  // coords = [[int, int], ... ,[int, int]]
+  function placeShip(shipCoords) {
+    if (gameBoard.placeShip(shipCoords)) {
+      console.log("Placed a ship");
+      renderBoard();
+      return true;
+    } else {
+      console.log("Cannot place ship", { shipCoords });
+      return false;
     }
-    container.appendChild(rowElement);
   }
+
+  // Create the DOM board and populate the boardSquares array.
+  function renderBoard() {
+    boardRows.forEach((row) => row.remove());
+    boardSquares.forEach((square) => square.unmount());
+
+    for (let row = 0; row < 10; row++) {
+      const rowElement = new Row();
+      for (let column = 0; column < 10; column++) {
+        const square = new Square(
+          [row, column],
+          toggleTurn,
+          gameBoard.receiveAttack,
+          gameBoard.coordIsValid,
+          gameBoard.isShipPosition,
+          placeShip
+        );
+        boardSquares.push(square);
+        rowElement.appendChild(square.container);
+      }
+      boardRows.push(rowElement);
+      container.appendChild(rowElement);
+    }
+  }
+
+  renderBoard();
   return {
     element: container,
     disableClick,

@@ -22,10 +22,10 @@ export default function Game() {
       currentPlayer().disableClick();
       nextPlayer().enableClick();
     } else {
-      nextPlayer();
-      console.log(`${currentPlayer().name} is the winner!`);
-      currentPlayer().disableClick();
-      nextPlayer().disableClick();
+      // nextPlayer();
+      // console.log(`${currentPlayer().name} is the winner!`);
+      // currentPlayer().disableClick();
+      // nextPlayer().disableClick();
     }
   }
 
