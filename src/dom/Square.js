@@ -41,7 +41,17 @@ export default class Square {
     this.container.addEventListener("dragover", this.#dragoverHandler);
     this.container.addEventListener("drop", this.#dropHandler);
 
-    this.#toggleShipPosition();
+    /**
+     * If shipSelector is null that means that we are rendering the board
+     * for game play and we DO NOT want to render ship positions on this board.
+     *
+     * If shipSelector is not null then we want to show the ship positions.
+     * We want them so see their ships because this board is being rendered for
+     * the player to drag and drop their ships onto it.
+     */
+    if (shipSelector != null) {
+      this.#toggleShipPosition();
+    }
   }
 
   // Color in this square if there is a ship on it.
@@ -59,12 +69,13 @@ export default class Square {
    * square.
    */
   #click_handler() {
-    if (this.gameBoard.receiveAttack(this.coords)) {
+    const isAHit = this.gameBoard.receiveAttack(this.coords);
+    if (isAHit) {
       this.container.classList.add("fill-ship-hit");
     } else {
       this.container.classList.add("fill-missed-strike");
     }
-    this.toggleTurn();
+    this.toggleTurn(isAHit);
   }
 
   #dragover_handler(e) {
@@ -87,7 +98,7 @@ export default class Square {
 
   disable() {
     this.container.removeEventListener("click", this.#clickHandler);
-    this.#toggleShipPosition();
+    // this.#toggleShipPosition();
   }
 
   enable() {
@@ -98,7 +109,7 @@ export default class Square {
         once: true,
       });
     }
-    this.container.classList.remove("fill-ship-position");
+    // this.container.classList.remove("fill-ship-position");
   }
 
   /**

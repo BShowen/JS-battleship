@@ -47,11 +47,19 @@ export default class Game {
    *
    * This method initially gets called by this.#donePlacingShips. Then subsequent
    * calls get called as a callback when a player takes their turn.
+   *
+   * hitOrMiss = Boolean passed in when Square.js calls this method.
    */
-  #toggle_Turn() {
+  #toggle_Turn(hitOrMiss) {
+    const message = (() => {
+      if (hitOrMiss == undefined) return;
+      if (hitOrMiss) return "Direct hit!";
+      return "Miss!";
+    })();
+
     if (this.#currentPlayer().isAlive()) {
-      GameMenu.passScreen(this.#currentPlayer().name, this.#nextTurn);
-      // this.#nextTurn();
+      GameMenu.toast(message);
+      this.#nextTurn();
     } else {
       this.#endGame();
     }

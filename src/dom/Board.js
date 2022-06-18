@@ -164,6 +164,13 @@ export default class Board {
 
   // This method will completely remove this board from the DOM.
   remove() {
+    /**
+     * The only time this method gets called is after the player has placed
+     * their ships and we want to remove this board from the DOM. In that case
+     * we also need to remove shipSelector from this class. This way
+     * shipSelector
+     */
+    this.shipSelector = null;
     this.#container.remove();
   }
 }
