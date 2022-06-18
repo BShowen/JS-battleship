@@ -1,8 +1,11 @@
 import Board from "./Board";
+import GameMenu from "./GameMenu";
 
 export default class Game {
   // The iterator used to determine who's turn it is.
   #i = 0;
+
+  #nextTurn;
 
   constructor(parentNode) {
     // This is the node where this class renders any DOM elements.
@@ -14,6 +17,7 @@ export default class Game {
      */
     this.donePlacingShips = this.donePlacingShips.bind(this);
     this.toggleTurn = this.#toggleTurn.bind(this);
+    this.#nextTurn = this.#next_Turn.bind(this);
 
     // Store a reference to each player so we can interact with them.
     this.players = [
@@ -44,7 +48,8 @@ export default class Game {
    */
   #toggleTurn() {
     if (this.#currentPlayer().isAlive()) {
-      this.#nextTurn();
+      GameMenu.passScreen(this.#currentPlayer().name, this.#nextTurn);
+      // this.#nextTurn();
     } else {
       this.#endGame();
     }
@@ -55,7 +60,7 @@ export default class Game {
    * is responsible for switching turns from player one to player two and vice
    * versa
    */
-  #nextTurn() {
+  #next_Turn() {
     this.#currentPlayer().disableClick();
     this.#nextPlayer().enableClick();
   }
