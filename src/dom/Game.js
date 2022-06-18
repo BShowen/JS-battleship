@@ -52,11 +52,10 @@ export default class Game {
 
   /**
    * This function only ever gets called from this.#toggleTurn(). This function
-   * is responsible for switching turns from player on to player two and vice
+   * is responsible for switching turns from player one to player two and vice
    * versa
    */
   #nextTurn() {
-    console.log(`${this.#currentPlayer().name}'s turn`);
     this.#currentPlayer().disableClick();
     this.#nextPlayer().enableClick();
   }
