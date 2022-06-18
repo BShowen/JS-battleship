@@ -3,93 +3,102 @@ import "./Square.css";
 
 /**
  * coordinates = [int,int]
- * toggleTurn, isDirectHIt, isValidCoord, isShipPosition = Are callbacks that
- * are passed in from Board.js
+ * toggleTurn = A callback passed in from Board.js
+ * placeShip = A callback passed in from Board.js
+ * gameBoard = An instance of GameBoard.js passed in from Board.js
+ * shipSelector = An instance of ShipSelector.js passed in from Board.js
  */
 export default class Square {
-  constructor(
-    coordinates,
-    toggleTurn,
-    isDirectHit,
-    isValidCoord,
-    isShipPosition,
-    placeShip
-  ) {
+  // See this.#click_handler for an explanation of this method.
+  #clickHandler;
+
+  // See this.#drop_handler for an explanation of this method.
+  #dropHandler;
+
+  // See this.#dragover_handler for the definition of this method.
+  #dragoverHandler;
+
+  constructor(coordinates, toggleTurn, placeShip, gameBoard, shipSelector) {
+    /**
+     * Define the callbacks used in this class.
+     */
     // The coordinates of this square.
     this.coords = coordinates;
+    this.toggleTurn = toggleTurn;
+    this.placeShip = placeShip;
+    this.gameBoard = gameBoard;
+    this.shipSelector = shipSelector;
 
     // The container for rendering this square in the DOM.
     this.container = new HtmlElement({ type: "div", classList: ["square"] });
-    this.clickHandler = this.handler.bind(this);
-    this.drop_handler = this.drop_handler.bind(this);
-    this.dragover_handler = this.dragover_handler.bind(this);
-    this.container.addEventListener("dragover", this.dragover_handler);
-    this.container.addEventListener("drop", this.drop_handler);
 
-    this.callBacks = {
-      toggleTurn,
-      isDirectHit,
-      isShipPosition,
-      placeShip,
-      isValidCoord,
-    };
+    // Bind functions to this class
+    this.#clickHandler = this.#click_handler.bind(this);
+    this.#dropHandler = this.#drop_handler.bind(this);
+    this.#dragoverHandler = this.#dragover_handler.bind(this);
 
-    if (isShipPosition(this.coords)) {
+    // Add event listeners to DOM elements in this class.
+    this.container.addEventListener("dragover", this.#dragoverHandler);
+    this.container.addEventListener("drop", this.#dropHandler);
+
+    this.#toggleShipPosition();
+  }
+
+  // Color in this square if there is a ship on it.
+  #toggleShipPosition() {
+    if (this.gameBoard.isShipPosition(this.coords)) {
       this.container.classList.add("fill-ship-position");
     }
   }
 
-  handler() {
-    if (this.callBacks.isDirectHit(coords)) {
+  /**
+   * Handle this click when the user clicks on this square.
+   *
+   * This method will color this square in when the user clicks on this square.
+   * The color of the square depends on whether or not there is a ship on this
+   * square.
+   */
+  #click_handler() {
+    if (this.gameBoard.receiveAttack(this.coords)) {
       this.container.classList.add("fill-ship-hit");
     } else {
       this.container.classList.add("fill-missed-strike");
     }
-    this.callBacks.toggleTurn();
+    this.toggleTurn();
   }
 
-  disable() {
-    this.container.removeEventListener("click", this.clickHandler);
-    this.callBacks.toggleShipPosition();
-  }
-
-  toggleShipPosition() {
-    if (isShipPosition(this.coords)) {
-      this.container.classList.add("fill-ship-position");
-    }
-  }
-
-  enable() {
-    // The coordinates are valid ONLY if they haven'y been selected before. This
-    // ensures that you cannot select the same square multiple times.
-    if (this.callBacks.isValidCoord(this.coords)) {
-      this.container.addEventListener("click", this.clickHandler, {
-        once: true,
-      });
-    }
-    this.container.classList.remove("fill-ship-position");
-  }
-
-  dragover_handler(e) {
+  #dragover_handler(e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
   }
 
-  drop_handler(e) {
+  /**
+   * This method gets called when a user drops a ship onto the board.
+   */
+  #drop_handler(e) {
     e.preventDefault();
-    const elementId = e.dataTransfer.getData("text/plain");
-    const ship = document.getElementById(elementId);
-    const shipDraggedFrom = ship.dataset.clickedBody;
-    const orientation = ship.dataset.orientation;
-    const length = ship.dataset.length;
-    const dropCoords = this.generateCoords(
-      shipDraggedFrom,
-      orientation,
-      length
-    );
-    if (this.callBacks.placeShip(dropCoords)) {
-      ship.remove();
+    const shipElementId = e.dataTransfer.getData("text/plain");
+    const ship = document.getElementById(shipElementId);
+    const dropCoords = this.#generateCoords(ship);
+    if (this.placeShip(dropCoords)) {
+      this.shipSelector.removeShip(shipElementId);
     }
+  }
+
+  disable() {
+    this.container.removeEventListener("click", this.#clickHandler);
+    this.#toggleShipPosition();
+  }
+
+  enable() {
+    // The coordinates are valid ONLY if they haven't been selected before. This
+    // ensures that you cannot select the same square multiple times.
+    if (this.gameBoard.coordIsValid(this.coords)) {
+      this.container.addEventListener("click", this.#clickHandler, {
+        once: true,
+      });
+    }
+    this.container.classList.remove("fill-ship-position");
   }
 
   /**
@@ -107,33 +116,35 @@ export default class Square {
    * determine the coordinates for each individual square that makes up the skip.
    * These coordinates are generated and returned from this method.
    */
-  generateCoords(shipDroppedFrom, orientation, length) {
+  #generateCoords(ship) {
+    const shipDroppedFrom = ship.dataset.clickedBody;
+    const orientation = ship.dataset.orientation;
+    const length = ship.dataset.length;
+
     let xAxisRef = this.coords[0];
     let yAxisRef = this.coords[1];
     const shipCoords = [];
+    if (orientation === "vertical") {
+      for (let i = 0; i < length; i++) {
+        let newCoords;
+        if (i < shipDroppedFrom) {
+          newCoords = [xAxisRef - (shipDroppedFrom - i), yAxisRef];
+        } else if (i == shipDroppedFrom) {
+          newCoords = this.coords;
+        } else if (i > shipDroppedFrom) {
+          newCoords = [++xAxisRef, yAxisRef];
+        }
 
-    for (let i = 0; i < length; i++) {
-      let newCoords;
-      if (i < shipDroppedFrom) {
-        newCoords = [xAxisRef - (shipDroppedFrom - i), yAxisRef];
-      } else if (i == shipDroppedFrom) {
-        newCoords = this.coords;
-      } else if (i > shipDroppedFrom) {
-        newCoords = [++xAxisRef, yAxisRef];
+        shipCoords.push(newCoords);
       }
-
-      shipCoords.push(newCoords);
     }
-
     return shipCoords;
   }
 
   unmount() {
-    this.container.removeEventListener("click", this.clickHandler);
-    this.container.removeEventListener("dragover", this.dragover_handler);
-    this.container.removeEventListener("drop", this.drop_handler);
+    this.container.removeEventListener("click", this.#clickHandler);
+    this.container.removeEventListener("dragover", this.#dragoverHandler);
+    this.container.removeEventListener("drop", this.#dropHandler);
     this.container.remove();
   }
-
-  // return { element: container, disable, enable };
 }

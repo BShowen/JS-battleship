@@ -2,7 +2,6 @@ import "./index.css";
 import rootNode from "./rootNode";
 import Game from "./dom/Game";
 import { HtmlElement } from "@bshowen/htmlelement";
-import ShipSelector from "./dom/ShipSelector";
 
 const app = (() => {
   const appRoot = rootNode;
@@ -11,16 +10,12 @@ const app = (() => {
     type: "div",
     id: "boards-container",
   });
-  const game = new Game();
-  const shipContainer = new ShipSelector().container;
+  appRoot.appendChild(boardsContainer);
+
+  const game = new Game(boardsContainer);
 
   function render() {
-    const [playerOneBoard, playerTwoBoard] = game.players;
-    boardsContainer.appendChild(playerOneBoard.element);
-    boardsContainer.appendChild(playerTwoBoard.element);
-    appRoot.appendChild(boardsContainer);
-    appRoot.appendChild(shipContainer);
-    game.start();
+    game.startGame();
   }
 
   render();
