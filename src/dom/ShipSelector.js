@@ -27,10 +27,10 @@ export default class ShipSelector {
   #initializeShips() {
     this.ships = [
       new Ship(5, "0", this.#container),
-      new Ship(5, "1", this.#container),
-      new Ship(3, "2", this.#container),
-      new Ship(3, "3", this.#container),
-      new Ship(2, "4", this.#container),
+      // new Ship(5, "1", this.#container),
+      // new Ship(3, "2", this.#container),
+      // new Ship(3, "3", this.#container),
+      // new Ship(2, "4", this.#container),
     ];
     this.ships.forEach((ship) => ship.render());
   }
