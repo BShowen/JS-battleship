@@ -1,0 +1,17 @@
+.board {
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.board:hover{
+  cursor: pointer;
+}
+
+
+.disabled {
+  background-color: rgba(0, 0, 0, 0.10);
+}
+
+.disabled:hover{
+  cursor: not-allowed;
+}

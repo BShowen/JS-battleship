@@ -1,3 +1,4 @@
+import "./Board.css";
 import Row from "./Row";
 import Square from "./Square";
 import GameBoard from "../game_modules/GameBoard";
@@ -63,11 +64,13 @@ export default class Board {
 
   // Disable clicking on this board.
   disableClick() {
+    this.#container.classList.add("disabled");
     this.#boardSquares.forEach((square) => square.disable());
   }
 
   // Enable clicking on this board.
   enableClick() {
+    this.#container.classList.remove("disabled");
     this.#boardSquares.forEach((square) => square.enable());
   }
 
