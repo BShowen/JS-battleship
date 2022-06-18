@@ -7,47 +7,25 @@ export default class GameMenu {
     id: "game-menu-container",
   });
 
-  static passScreen(playerName, callBack) {
-    const clickHandler = function clickHandler(e) {
-      e.preventDefault();
-      screenOverlay.remove();
-    }.bind(this);
+  static toast(message) {
+    if (message == undefined) return;
 
-    const screenOverlay = new HtmlElement({
+    const toastContainer = new HtmlElement({
       type: "div",
-      id: "pass-screen-overlay",
+      id: "toast-container",
     });
 
-    const buttonElement = (() => {
-      const buttonContainer = new HtmlElement({
-        type: "div",
-        id: "pass-screen-button-container",
-      });
-      const button = new HtmlElement({
-        type: "button",
-        innerText: "Ready",
-        id: "pass-button",
-      });
+    const toastContent = new HtmlElement({ type: "div", id: "toast-content" });
 
-      button.addEventListener("click", clickHandler, { once: true });
-      button.addEventListener("click", callBack, { once: true });
+    const toastMessage = new HtmlElement({ type: "p", innerText: message });
 
-      buttonContainer.appendChild(button);
-      return buttonContainer;
-    })();
+    function removeToast() {
+      toastContainer.remove();
+    }
 
-    const playerNameElement = (() => {
-      const playerNameContainer = new HtmlElement({ type: "div" });
-      const playerNameElement = new HtmlElement({
-        type: "p",
-        innerText: playerName,
-      });
-      playerNameContainer.appendChild(playerNameElement);
-      return playerNameContainer;
-    })();
-
-    screenOverlay.appendChild(playerNameElement);
-    screenOverlay.appendChild(buttonElement);
-    document.body.appendChild(screenOverlay);
+    toastContainer.appendChild(toastContent);
+    toastContent.appendChild(toastMessage);
+    document.body.appendChild(toastContainer);
+    setTimeout(removeToast, 1500);
   }
 }
