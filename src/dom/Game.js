@@ -6,6 +6,8 @@ export default class Game {
   #i = 0;
 
   #nextTurn;
+  #toggleTurn;
+  #donePlacingShips;
 
   constructor(parentNode) {
     // This is the node where this class renders any DOM elements.
@@ -15,14 +17,14 @@ export default class Game {
      * Because these methods are used as a callbacks, we need to set the context
      * of 'this' since these methods refer to methods defined in this class.
      */
-    this.donePlacingShips = this.donePlacingShips.bind(this);
-    this.toggleTurn = this.#toggleTurn.bind(this);
+    this.#donePlacingShips = this.#done_placing_ships.bind(this);
+    this.#toggleTurn = this.#toggle_Turn.bind(this);
     this.#nextTurn = this.#next_Turn.bind(this);
 
     // Store a reference to each player so we can interact with them.
     this.players = [
-      new Board("Player One", this.toggleTurn, this.parentNode),
-      new Board("Player Two", this.toggleTurn, this.parentNode),
+      new Board("Player One", this.#toggleTurn, this.parentNode),
+      new Board("Player Two", this.#toggleTurn, this.parentNode),
     ];
   }
 
@@ -43,10 +45,10 @@ export default class Game {
    * This method is responsible for checking to see if the current player is
    * alive and calls the appropriate handler for each scenario.
    *
-   * This method initially gets called by this.donePlacingShips. Then subsequent
+   * This method initially gets called by this.#donePlacingShips. Then subsequent
    * calls get called as a callback when a player takes their turn.
    */
-  #toggleTurn() {
+  #toggle_Turn() {
     if (this.#currentPlayer().isAlive()) {
       GameMenu.passScreen(this.#currentPlayer().name, this.#nextTurn);
       // this.#nextTurn();
@@ -92,7 +94,7 @@ export default class Game {
        * letting player two place their ships.
        *
        */
-      this.#currentPlayer().placeShips(this.donePlacingShips);
+      this.#currentPlayer().placeShips(this.#donePlacingShips);
     }
   }
 
@@ -107,7 +109,7 @@ export default class Game {
    * player two to place their ships. This method toggles from player one to
    * player two, to allow player two to place ships.
    */
-  donePlacingShips() {
+  #done_placing_ships() {
     // Remove the player one UI components
     this.#currentPlayer().remove();
 
