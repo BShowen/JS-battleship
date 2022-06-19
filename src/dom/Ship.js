@@ -14,6 +14,9 @@ export default class Ship {
   // The length of the ship.
   #length;
 
+  // Handle a double click on this element
+  #doubleClickHandler;
+
   constructor(length, uniqueElementId, parentElement) {
     // The Html DOM element where this class inserts itself.
     this.#parentElement = parentElement;
@@ -23,6 +26,7 @@ export default class Ship {
       id: `ship-${uniqueElementId}`,
       attributes: {
         draggable: "true",
+        "data-orientation": "vertical",
       },
     });
 
@@ -36,8 +40,23 @@ export default class Ship {
      * context of 'this' so that this method can reference this class.
      */
     this.setDataSet = this.#setDataSet.bind(this);
+    this.#doubleClickHandler = this.#double_click_handler.bind(this);
+
+    this.#container.addEventListener("dblclick", this.#doubleClickHandler);
 
     this.#createShipBody();
+  }
+
+  #double_click_handler() {
+    const currentOrientation = this.#container.dataset.orientation;
+    console.log(currentOrientation);
+    if (currentOrientation === "vertical") {
+      console.log("change to horizontal");
+      this.#container.dataset.orientation = "horizontal";
+    } else {
+      console.log("change to vertical");
+      this.#container.dataset.orientation = "vertical";
+    }
   }
 
   // Create the individual squares that makeup a ship.
@@ -50,7 +69,7 @@ export default class Ship {
   // This mousedown handler for this square.
   #setDataSet(int) {
     this.#container.setAttribute("data-clicked-body", int);
-    this.#container.setAttribute("data-orientation", "vertical");
+    // this.#container.setAttribute("data-orientation", "vertical");
     this.#container.setAttribute("data-length", this.#length);
   }
 

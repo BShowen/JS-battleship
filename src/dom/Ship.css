@@ -4,8 +4,15 @@ div[id*="ship"]{
   min-height: min-content;
   max-height: min-content;
   display: flex;
-  flex-direction: column;
   gap: 6px;
+}
+
+div[data-orientation*="vertical"]{
+  flex-direction: column;
+}
+
+div[data-orientation*="horizontal"]{
+  flex-direction: row;
 }
 
 .ship-body{
