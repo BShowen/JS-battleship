@@ -7,6 +7,9 @@ import "./Square.css";
  * placeShip = A callback passed in from Board.js
  * gameBoard = An instance of GameBoard.js passed in from Board.js
  * shipSelector = An instance of ShipSelector.js passed in from Board.js
+ * fleetStatus = AN instance of FleetStatus.js passed in from Board.js
+ *
+ *
  */
 export default class Square {
   // See this.#click_handler for an explanation of this method.
@@ -18,7 +21,14 @@ export default class Square {
   // See this.#dragover_handler for the definition of this method.
   #dragoverHandler;
 
-  constructor(coordinates, toggleTurn, placeShip, gameBoard, shipSelector) {
+  constructor(
+    coordinates,
+    toggleTurn,
+    placeShip,
+    gameBoard,
+    shipSelector,
+    fleetStatus
+  ) {
     /**
      * Define the callbacks used in this class.
      */
@@ -28,6 +38,7 @@ export default class Square {
     this.placeShip = placeShip;
     this.gameBoard = gameBoard;
     this.shipSelector = shipSelector;
+    this.fleetStatus = fleetStatus;
 
     // The container for rendering this square in the DOM.
     this.container = new HtmlElement({ type: "div", classList: ["square"] });
@@ -69,8 +80,9 @@ export default class Square {
    * square.
    */
   #click_handler() {
-    const isAHit = this.gameBoard.receiveAttack(this.coords);
+    const [isAHit, shipName] = this.gameBoard.receiveAttack(this.coords);
     if (isAHit) {
+      this.fleetStatus.shipIsHit(shipName);
       this.container.classList.add("fill-ship-hit");
     } else {
       this.container.classList.add("fill-missed-strike");
@@ -90,8 +102,9 @@ export default class Square {
     e.preventDefault();
     const shipElementId = e.dataTransfer.getData("text/plain");
     const ship = document.getElementById(shipElementId);
+    const shipName = ship.dataset.shipName;
     const dropCoords = this.#generateCoords(ship);
-    if (this.placeShip(dropCoords)) {
+    if (this.placeShip(dropCoords, shipName)) {
       this.shipSelector.removeShip(shipElementId);
     }
   }
@@ -162,5 +175,12 @@ export default class Square {
     this.container.removeEventListener("dragover", this.#dragoverHandler);
     this.container.removeEventListener("drop", this.#dropHandler);
     this.container.remove();
+  }
+
+  render(parentNode) {
+    if (this.fleetStatus) {
+      this.fleetStatus.render();
+    }
+    parentNode.appendChild(this.container);
   }
 }

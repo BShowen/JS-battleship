@@ -1,0 +1,34 @@
+#fleet-status-container {
+  border: 2px solid green;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 30px;
+  padding: 10px;
+}
+
+.fleet-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  padding: 10px;
+  max-width: 500px;
+  gap: 30px;
+  border: 2px solid red;
+  width: 100%;
+}
+
+.mock-ship{
+  min-width: min-content;
+  max-width: min-content;
+  min-height: min-content;
+  max-height: min-content;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mock-ship .damaged{
+  background-color: red;
+}

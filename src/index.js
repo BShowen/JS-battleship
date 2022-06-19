@@ -10,7 +10,14 @@ const app = (() => {
     type: "div",
     id: "boards-container",
   });
+
+  const fleetStatusContainer = new HtmlElement({
+    type: "div",
+    id: "fleet-status-container",
+  });
+
   appRoot.appendChild(boardsContainer);
+  appRoot.appendChild(fleetStatusContainer);
 
   const game = new Game(boardsContainer);
 

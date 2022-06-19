@@ -4,6 +4,7 @@ import Square from "./Square";
 import GameBoard from "../game_modules/GameBoard";
 import ShipSelector from "./ShipSelector";
 import { HtmlElement } from "@bshowen/htmlelement";
+import FleetStatus from "./FleetStatus";
 
 /**
  * This is a representation of the game board in the DOM. This is the class that
@@ -89,8 +90,8 @@ export default class Board {
    * This method is passed into Square as a callback to be called when a ship
    * is trying to be placed on that Square.
    */
-  placeShip(shipCoords) {
-    if (this.#gameBoard.placeShip(shipCoords)) {
+  placeShip(shipCoords, shipName) {
+    if (this.#gameBoard.placeShip(shipCoords, shipName)) {
       this.renderBoard();
       return true;
     } else {
@@ -108,7 +109,10 @@ export default class Board {
    * this method.
    */
   placeShips(donePlacingShips) {
-    // Create and render the container that holds all the ships.
+    /**
+     * Create and render the container that holds all the ships so the user can
+     * place them on the board.
+     */
     this.shipSelector = new ShipSelector(donePlacingShips);
     this.shipSelector.render();
 
@@ -137,14 +141,16 @@ export default class Board {
           this.toggleTurn,
           this.placeShip,
           this.#gameBoard,
-          this.shipSelector || null
+          this.shipSelector || null,
+          this.fleetStatus || null
         );
 
         // Store a reference of this Square.
         this.#boardSquares.push(square);
 
         // Add this Square element to the Row element.
-        rowElement.appendChild(square.container);
+        // rowElement.appendChild(square.container);
+        square.render(rowElement);
       }
 
       // Store a reference of this Row
@@ -170,10 +176,24 @@ export default class Board {
     /**
      * The only time this method gets called is after the player has placed
      * their ships and we want to remove this board from the DOM. In that case
-     * we also need to remove shipSelector from this class. This way
-     * shipSelector
+     * we also need to remove shipSelector from this class. Now, when the board
+     * is re-rendered in the DOM, we will pass in null, instead of ShipSelector,
+     * to Square.js and Square.js renders differently because of this.
+     *
+     * If ShipSelector is passed into Square, then Square will show ship
+     * positions. We don't want this. Showing ship positions is only useful when
+     * the player is placing ships on the board. Otherwise we never want to
+     * show ship positions on the board.
      */
     this.shipSelector = null;
+
+    /**
+     * When this method is called that means the players have placed their ships
+     * and are about to battle. In this case we want to have an instance of
+     * FleetStatus which will be passed into Square. Square will update
+     * FleetStatus whenever a ship is hit.
+     */
+    this.fleetStatus = new FleetStatus();
     this.#container.remove();
   }
 }

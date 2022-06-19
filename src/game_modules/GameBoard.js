@@ -39,12 +39,12 @@ export default function GameBoard() {
 
   // Attempt to place a ship on the board.
   // Return true is successful otherwise return false.
-  function placeShip(coords) {
+  function placeShip(coords, shipName) {
     if (_shipCoordinates.contains(coords) || _outOfBounds(coords)) {
       return false;
     }
     _shipCoordinates.add(coords);
-    _floatingShips.push(new Ship(coords));
+    _floatingShips.push(new Ship(coords, shipName));
     return true;
   }
 
@@ -53,17 +53,17 @@ export default function GameBoard() {
     if (!_allReceivedHits.contains([coords])) _allReceivedHits.add([coords]);
 
     if (_shipCoordinates.contains([coords])) {
-      return _floatingShips.some((ship) => {
+      for (const ship of _floatingShips) {
         if (ship.hit(coords)) {
           if (ship.isSunk()) {
             _sunkenShips++;
           }
-          return true;
+          return [true, ship.name];
         }
-      });
+      }
     }
 
-    return false;
+    return [false, null];
   }
 
   // Return true if there are floating ships on the board.

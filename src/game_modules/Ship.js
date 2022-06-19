@@ -1,6 +1,6 @@
 import coordinateList from "./coordinateList";
 
-export default function Ship(coords) {
+export default function Ship(coords, shipName) {
   const _length = coords.length;
   let _hits = 0;
   const _shipCoords = coordinateList(coords);
@@ -19,5 +19,7 @@ export default function Ship(coords) {
     return _length === _hits;
   };
 
-  return { hit, isSunk };
+  const name = shipName;
+
+  return { hit, isSunk, name };
 }

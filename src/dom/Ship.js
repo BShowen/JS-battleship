@@ -17,7 +17,7 @@ export default class Ship {
   // Handle a double click on this element
   #doubleClickHandler;
 
-  constructor(length, uniqueElementId, parentElement) {
+  constructor(length, uniqueElementId, parentElement, shipName) {
     // The Html DOM element where this class inserts itself.
     this.#parentElement = parentElement;
 
@@ -27,6 +27,7 @@ export default class Ship {
       attributes: {
         draggable: "true",
         "data-orientation": "vertical",
+        "data-ship-name": shipName,
       },
     });
 
@@ -49,12 +50,9 @@ export default class Ship {
 
   #double_click_handler() {
     const currentOrientation = this.#container.dataset.orientation;
-    console.log(currentOrientation);
     if (currentOrientation === "vertical") {
-      console.log("change to horizontal");
       this.#container.dataset.orientation = "horizontal";
     } else {
-      console.log("change to vertical");
       this.#container.dataset.orientation = "vertical";
     }
   }
