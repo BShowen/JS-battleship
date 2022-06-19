@@ -135,19 +135,24 @@ export default class Square {
     let xAxisRef = this.coords[0];
     let yAxisRef = this.coords[1];
     const shipCoords = [];
-    if (orientation === "vertical") {
-      for (let i = 0; i < length; i++) {
-        let newCoords;
-        if (i < shipDroppedFrom) {
-          newCoords = [xAxisRef - (shipDroppedFrom - i), yAxisRef];
-        } else if (i == shipDroppedFrom) {
-          newCoords = this.coords;
-        } else if (i > shipDroppedFrom) {
-          newCoords = [++xAxisRef, yAxisRef];
-        }
 
-        shipCoords.push(newCoords);
+    for (let i = 0; i < length; i++) {
+      let newCoords;
+      if (i < shipDroppedFrom) {
+        newCoords =
+          orientation === "vertical"
+            ? [xAxisRef - (shipDroppedFrom - i), yAxisRef]
+            : [xAxisRef, yAxisRef - (shipDroppedFrom - i)];
+      } else if (i == shipDroppedFrom) {
+        newCoords = this.coords;
+      } else if (i > shipDroppedFrom) {
+        newCoords =
+          orientation === "vertical"
+            ? [++xAxisRef, yAxisRef]
+            : [xAxisRef, ++yAxisRef];
       }
+
+      shipCoords.push(newCoords);
     }
     return shipCoords;
   }
