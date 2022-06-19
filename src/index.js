@@ -2,6 +2,7 @@ import "./index.css";
 import rootNode from "./rootNode";
 import Game from "./dom/Game";
 import { HtmlElement } from "@bshowen/htmlelement";
+import GameMenu from "./dom/GameMenu";
 
 const app = (() => {
   const appRoot = rootNode;
@@ -21,9 +22,10 @@ const app = (() => {
 
   const game = new Game(boardsContainer);
 
-  function render() {
-    game.startGame();
-  }
-
-  render();
+  GameMenu.renderGameSelectionMenu(appRoot, {
+    twoPlayer: game.startGame.bind(game),
+    singlePlayer: () => {
+      console.log("Cant play that yet");
+    },
+  });
 })();

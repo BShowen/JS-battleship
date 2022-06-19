@@ -16,5 +16,30 @@
   background-color: #CCE5FF;
   min-width: 100px;
   text-align: center;
+}
 
+#game-menu-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#menu-container {
+  border-radius: 5px;
+  background-color: #CCE5FF;
+  padding: 10px;
+}
+
+.button-container {
+  padding: 5px;
+}
+
+button{
+  width: 100%;
 }

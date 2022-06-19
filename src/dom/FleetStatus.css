@@ -1,5 +1,4 @@
 #fleet-status-container {
-  border: 2px solid green;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
