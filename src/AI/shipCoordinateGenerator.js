@@ -6,7 +6,7 @@ import CoordinateGenerator from "./CoordinateGenerator";
  * game board. The AI class imports and calls this function.
  */
 
-export default function placeShips() {
+export default function shipCoordinateGenerator() {
   const _coordinateList = coordinateList();
   const coordGenerator = new CoordinateGenerator();
 
@@ -120,6 +120,5 @@ export default function placeShips() {
     } while (_coordinateList.contains(uniqueCoordinate));
     return uniqueCoordinate;
   }
-
   return { getShipCoords };
 }
