@@ -3,13 +3,10 @@ import "./Square.css";
 
 /**
  * coordinates = [int,int]
- * toggleTurn = A callback passed in from Board.js
+ * receiveAttack = A callback passed in from Board.js
  * placeShip = A callback passed in from Board.js
  * gameBoard = An instance of GameBoard.js passed in from Board.js
  * shipSelector = An instance of ShipSelector.js passed in from Board.js
- * fleetStatus = AN instance of FleetStatus.js passed in from Board.js
- *
- *
  */
 export default class Square {
   // See this.#drop_handler for an explanation of this method.
@@ -18,30 +15,18 @@ export default class Square {
   // See this.#dragover_handler for the definition of this method.
   #dragoverHandler;
 
-  constructor(
-    coordinates,
-    toggleTurn,
-    placeShip,
-    gameBoard,
-    shipSelector,
-    fleetStatus
-  ) {
-    /**
-     * Define the callbacks used in this class.
-     */
-    // The coordinates of this square.
+  constructor(coordinates, receiveAttack, placeShip, gameBoard, shipSelector) {
+    //Define the callbacks used in this class.
     this.coords = coordinates;
-    this.toggleTurn = toggleTurn;
+    this.receiveAttack = receiveAttack;
     this.placeShip = placeShip;
     this.gameBoard = gameBoard;
     this.shipSelector = shipSelector;
-    this.fleetStatus = fleetStatus;
 
     // The container for rendering this square in the DOM.
     this.container = new HtmlElement({ type: "div", classList: ["square"] });
 
     // Bind functions to this class
-    this.receiveAttack = this.#receiveAttack.bind(this);
     this.#dropHandler = this.#drop_handler.bind(this);
     this.#dragoverHandler = this.#dragover_handler.bind(this);
 
@@ -69,22 +54,12 @@ export default class Square {
     }
   }
 
-  /**
-   * Handle this click when the user clicks on this square.
-   *
-   * This method will color this square in when the user clicks on this square.
-   * The color of the square depends on whether or not there is a ship on this
-   * square.
-   */
-  #receiveAttack() {
-    const [isAHit, shipName] = this.gameBoard.receiveAttack(this.coords);
-    if (isAHit) {
-      this.fleetStatus.shipIsHit(shipName);
+  fill(boolean) {
+    if (boolean) {
       this.container.classList.add("fill-ship-hit");
     } else {
       this.container.classList.add("fill-missed-strike");
     }
-    this.toggleTurn(isAHit);
   }
 
   #dragover_handler(e) {
@@ -175,9 +150,6 @@ export default class Square {
   }
 
   render(parentNode) {
-    if (this.fleetStatus) {
-      this.fleetStatus.render();
-    }
     parentNode.appendChild(this.container);
   }
 }

@@ -24,8 +24,6 @@ const app = (() => {
 
   GameMenu.renderGameSelectionMenu(appRoot, {
     twoPlayer: game.startGame.bind(game),
-    singlePlayer: () => {
-      console.log("Cant play that yet");
-    },
+    singlePlayer: game.startGame.bind(game, { singlePlayer: true }),
   });
 })();

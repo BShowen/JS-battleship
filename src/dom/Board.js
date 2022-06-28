@@ -38,8 +38,8 @@ export default class Board {
     // displayName = A string which is displayed above the board.
     this.name = displayName;
 
-    // toggleTurn = A callback passed in from Game.js. This callback is passed
-    // into Square.js
+    // toggleTurn = A callback passed in from Game.js. This callback is called
+    // in this.receiveAttack()
     this.toggleTurn = toggleTurn;
 
     this.#parentNode = parentNode;
@@ -53,6 +53,21 @@ export default class Board {
      * this class.
      */
     this.placeShip = this.placeShip.bind(this);
+
+    this.receiveAttack = this.receiveAttack.bind(this);
+  }
+
+  // coords = [int, int]
+  receiveAttack(coords) {
+    const [row, column] = coords;
+    const [isHit, shipName] = this.#gameBoard.receiveAttack(coords);
+    if (isHit) {
+      this.fleetStatus.shipIsHit(shipName);
+      this.#boardSquares[row][column].fill(true);
+    } else {
+      this.#boardSquares[row][column].fill(false);
+    }
+    this.toggleTurn(isHit);
   }
 
   /**
@@ -60,19 +75,27 @@ export default class Board {
    */
   #removeBoardFromDOM() {
     this.#boardRows.forEach((row) => row.remove());
-    this.#boardSquares.forEach((square) => square.unmount());
+    this.#boardSquares.forEach((row) => {
+      row.forEach((square) => square.unmount());
+    });
+    this.#boardRows = [];
+    this.#boardSquares = [];
   }
 
   // Disable clicking on this board.
   disableClick() {
     this.#container.classList.add("disabled");
-    this.#boardSquares.forEach((square) => square.disable());
+    this.#boardSquares.forEach((row) => {
+      row.forEach((square) => square.disable());
+    });
   }
 
   // Enable clicking on this board.
   enableClick() {
     this.#container.classList.remove("disabled");
-    this.#boardSquares.forEach((square) => square.enable());
+    this.#boardSquares.forEach((row) => {
+      row.forEach((square) => square.enable());
+    });
   }
 
   // Return true if this board has floating ships.
@@ -138,15 +161,17 @@ export default class Board {
          */
         const square = new Square(
           [row, column],
-          this.toggleTurn,
+          this.receiveAttack.bind(this, [row, column]),
           this.placeShip,
           this.#gameBoard,
-          this.shipSelector || null,
-          this.fleetStatus || null
+          this.shipSelector || null
         );
 
+        //This will dynamically build a 2d array.
+        if (column === 0) this.#boardSquares.push([]);
+
         // Store a reference of this Square.
-        this.#boardSquares.push(square);
+        this.#boardSquares[row].push(square);
 
         // Add this Square element to the Row element.
         // rowElement.appendChild(square.container);
@@ -168,6 +193,9 @@ export default class Board {
    * */
   render() {
     this.renderBoard();
+    if (this.fleetStatus) {
+      this.fleetStatus.render();
+    }
     this.#parentNode.appendChild(this.#container);
   }
 

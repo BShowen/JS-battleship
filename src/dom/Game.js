@@ -1,5 +1,6 @@
 import Board from "./Board";
 import GameMenu from "./GameMenu";
+import AI from "../AI/AI";
 
 export default class Game {
   // The iterator used to determine who's turn it is.
@@ -8,6 +9,9 @@ export default class Game {
   #nextTurn;
   #toggleTurn;
   #donePlacingShips;
+
+  // Store a reference to each player so we can interact with them.
+  players = [];
 
   constructor(parentNode) {
     // This is the node where this class renders any DOM elements.
@@ -20,12 +24,6 @@ export default class Game {
     this.#donePlacingShips = this.#done_placing_ships.bind(this);
     this.#toggleTurn = this.#toggle_Turn.bind(this);
     this.#nextTurn = this.#next_Turn.bind(this);
-
-    // Store a reference to each player so we can interact with them.
-    this.players = [
-      new Board("Player One", this.#toggleTurn, this.parentNode),
-      new Board("Player Two", this.#toggleTurn, this.parentNode),
-    ];
   }
 
   /**
@@ -71,8 +69,27 @@ export default class Game {
    * versa
    */
   #next_Turn() {
-    this.#currentPlayer().disableClick();
-    this.#nextPlayer().enableClick();
+    const attacker = this.#currentPlayer();
+    const opponent = this.#nextPlayer();
+
+    attacker.disableClick();
+
+    /**
+     * When the user is playing against the computer, we never want to enable
+     * clicking on the users board. This would allow the user to click on their
+     * own board which is unwanted.
+     *
+     * attacker.takeTurn is defined only on the AI class.
+     */
+    if (attacker.takeTurn) {
+      /**
+       * Tell AI to take its turn. AI needs a callback, which is the opponents
+       * "receiveAttack" method. AI will call this callback with its guess.
+       */
+      attacker.takeTurn(opponent.receiveAttack);
+    } else {
+      opponent.enableClick();
+    }
   }
 
   /**
@@ -93,17 +110,25 @@ export default class Game {
   startGame(gameOptions = { singlePlayer: false }) {
     if (gameOptions.singlePlayer) {
       // Playing against AI.
+      this.players = [
+        new Board("Player One", this.#toggleTurn, this.parentNode),
+        new AI(this.#toggleTurn, this.parentNode),
+      ];
     } else {
-      /**
-       * Initiate the process to let player one place their ships on their
-       * board by calling the placeShips method. The callback passed into
-       * #currentPlayer.placeShips will be called once the player has finished
-       * placing their ships. The callback will then start the process of
-       * letting player two place their ships.
-       *
-       */
-      this.#currentPlayer().placeShips(this.#donePlacingShips);
+      this.players = [
+        new Board("Player One", this.#toggleTurn, this.parentNode),
+        new Board("Player Two", this.#toggleTurn, this.parentNode),
+      ];
     }
+    /**
+     * Initiate the process to let player one place their ships on their
+     * board by calling the placeShips method. The callback passed into
+     * #currentPlayer.placeShips will be called once the player has finished
+     * placing their ships. The callback will then start the process of
+     * letting player two place their ships.
+     *
+     */
+    this.#currentPlayer().placeShips(this.#donePlacingShips);
   }
 
   /**
