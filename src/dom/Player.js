@@ -1,4 +1,4 @@
-import "./Board.css";
+import "./Player.css";
 import Row from "./Row";
 import Square from "./Square";
 import GameBoard from "../game_modules/GameBoard";
@@ -68,6 +68,7 @@ export default class Player {
       this.#boardSquares[row][column].fill(false);
     }
     this.toggleTurn(isHit);
+    return [isHit, shipName];
   }
 
   /**
