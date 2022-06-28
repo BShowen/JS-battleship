@@ -24,10 +24,10 @@ export default class AI extends Player {
     this.#shipCoordGenerator = shipCoordinateGenerator();
   }
 
-  takeTurn(callback) {
+  // opponentCallback = A callback passed in from Game.js
+  takeTurn(opponentCallback) {
     const AIGuess = this.#coordinateGenerator.getCoords(); //[int, int]
-    const attack = callback.bind(null, AIGuess);
-    setTimeout(attack, 500);
+    opponentCallback(AIGuess);
   }
 
   placeShips(callback) {
