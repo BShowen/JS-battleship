@@ -12,9 +12,6 @@ import "./Square.css";
  *
  */
 export default class Square {
-  // See this.#click_handler for an explanation of this method.
-  #clickHandler;
-
   // See this.#drop_handler for an explanation of this method.
   #dropHandler;
 
@@ -44,7 +41,7 @@ export default class Square {
     this.container = new HtmlElement({ type: "div", classList: ["square"] });
 
     // Bind functions to this class
-    this.#clickHandler = this.#click_handler.bind(this);
+    this.receiveAttack = this.#receiveAttack.bind(this);
     this.#dropHandler = this.#drop_handler.bind(this);
     this.#dragoverHandler = this.#dragover_handler.bind(this);
 
@@ -79,7 +76,7 @@ export default class Square {
    * The color of the square depends on whether or not there is a ship on this
    * square.
    */
-  #click_handler() {
+  #receiveAttack() {
     const [isAHit, shipName] = this.gameBoard.receiveAttack(this.coords);
     if (isAHit) {
       this.fleetStatus.shipIsHit(shipName);
@@ -110,7 +107,7 @@ export default class Square {
   }
 
   disable() {
-    this.container.removeEventListener("click", this.#clickHandler);
+    this.container.removeEventListener("click", this.receiveAttack);
     // this.#toggleShipPosition();
   }
 
@@ -118,7 +115,7 @@ export default class Square {
     // The coordinates are valid ONLY if they haven't been selected before. This
     // ensures that you cannot select the same square multiple times.
     if (this.gameBoard.coordIsValid(this.coords)) {
-      this.container.addEventListener("click", this.#clickHandler, {
+      this.container.addEventListener("click", this.receiveAttack, {
         once: true,
       });
     }
@@ -171,7 +168,7 @@ export default class Square {
   }
 
   unmount() {
-    this.container.removeEventListener("click", this.#clickHandler);
+    this.container.removeEventListener("click", this.receiveAttack);
     this.container.removeEventListener("dragover", this.#dragoverHandler);
     this.container.removeEventListener("drop", this.#dropHandler);
     this.container.remove();
