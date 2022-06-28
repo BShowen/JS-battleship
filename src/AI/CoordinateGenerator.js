@@ -43,7 +43,9 @@ export default class CoordinateGenerator {
     let coordinateAlreadyGuessed = this.#usedCoordinates.contains([coordinate]);
     const notOutOfCoordinates = this.#generationCount < 100;
     while (coordinateAlreadyGuessed && notOutOfCoordinates) {
+      console.log("*");
       coordinate = [this.#getRandomInt(), this.#getRandomInt()];
+      coordinateAlreadyGuessed = this.#usedCoordinates.contains([coordinate]);
     }
 
     ++this.#generationCount;

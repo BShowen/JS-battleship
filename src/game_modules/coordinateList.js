@@ -18,6 +18,7 @@ const coordinateList = function (coords) {
     return true;
   }
 
+  // coords = [int,int]
   function remove(coords) {
     if (!contains([coords])) return false;
     return _coordinates.some((coordinate, index) => {
