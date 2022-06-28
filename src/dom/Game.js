@@ -1,4 +1,4 @@
-import Board from "./Board";
+import Player from "./Player";
 import GameMenu from "./GameMenu";
 import AI from "../AI/AI";
 
@@ -111,13 +111,13 @@ export default class Game {
     if (gameOptions.singlePlayer) {
       // Playing against AI.
       this.players = [
-        new Board("Player One", this.#toggleTurn, this.parentNode),
+        new Player("Player One", this.#toggleTurn, this.parentNode),
         new AI(this.#toggleTurn, this.parentNode),
       ];
     } else {
       this.players = [
-        new Board("Player One", this.#toggleTurn, this.parentNode),
-        new Board("Player Two", this.#toggleTurn, this.parentNode),
+        new Player("Player One", this.#toggleTurn, this.parentNode),
+        new Player("Player Two", this.#toggleTurn, this.parentNode),
       ];
     }
     /**
@@ -132,7 +132,7 @@ export default class Game {
   }
 
   /**
-   * This method is passed into Board.js (in this.startGame()) via
+   * This method is passed into Player.js (in this.startGame()) via
    * the #currentPlayer().placeShips() method. From there it is passed into
    * ShipSelector.js via the ShipSelector constructor. ShipSelector will call
    * this method once a player has placed all of their ships on their board.

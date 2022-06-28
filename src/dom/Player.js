@@ -10,7 +10,7 @@ import FleetStatus from "./FleetStatus";
  * This is a representation of the game board in the DOM. This is the class that
  * interacts with the GameBoard API, found in src/game_modules/GameBoard.js
  */
-export default class Board {
+export default class Player {
   #gameBoard = new GameBoard();
   /**
    * boardSquares is populated with the squares that makeup the board in the

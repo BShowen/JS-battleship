@@ -1,11 +1,11 @@
-import Board from "../dom/Board";
+import Player from "../dom/Player";
 import shipCoordinateGenerator from "./shipCoordinateGenerator";
 import CoordinateGenerator from "./CoordinateGenerator";
 
 /**
- * The AI class extends the Board.js class and adds functionality to it.
+ * The AI class extends the Player.js class and adds functionality to it.
  */
-export default class AI extends Board {
+export default class AI extends Player {
   #shipCoordGenerator;
 
   #coordinateGenerator = new CoordinateGenerator();
