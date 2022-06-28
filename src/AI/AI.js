@@ -2,10 +2,10 @@ import Board from "../dom/Board";
 import shipCoordinateGenerator from "./shipCoordinateGenerator";
 import CoordinateGenerator from "./CoordinateGenerator";
 
-export default class AI {
-  // An instance of Board.js
-  #gameBoard;
-
+/**
+ * The AI class extends the Board.js class and adds functionality to it.
+ */
+export default class AI extends Board {
   #shipCoordGenerator;
 
   #coordinateGenerator = new CoordinateGenerator();
@@ -19,21 +19,9 @@ export default class AI {
    * method when battling against the AI.
    */
   constructor(toggleTurn, parentNode) {
-    this.#gameBoard = new Board("AI", toggleTurn, parentNode);
+    super("AI", toggleTurn, parentNode);
 
     this.#shipCoordGenerator = shipCoordinateGenerator();
-
-    /**
-     * From here down are all the methods from the Board.js API.
-     * AI is an object that implements and adds to all the public methods defined
-     * in Board.js. In other words, this class (the AI class) implements the
-     * same interface that Board.js does, but AI adds to it.
-     */
-    this.disableClick = this.#gameBoard.disableClick.bind(this.#gameBoard);
-    this.enableClick = this.#gameBoard.enableClick.bind(this.#gameBoard);
-    this.isAlive = this.#gameBoard.isAlive.bind(this.#gameBoard);
-    this.render = this.#gameBoard.render.bind(this.#gameBoard);
-    this.remove = this.#gameBoard.remove.bind(this.#gameBoard);
   }
 
   takeTurn(callback) {
@@ -52,7 +40,7 @@ export default class AI {
     ];
 
     _ships.forEach((shipName) => {
-      this.#gameBoard.placeShip(
+      super.placeShip(
         this.#shipCoordGenerator.getShipCoords(shipName),
         shipName
       );
