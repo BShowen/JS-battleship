@@ -43,7 +43,6 @@ export default class CoordinateGenerator {
     let coordinateAlreadyGuessed = this.#usedCoordinates.contains([coordinate]);
     const notOutOfCoordinates = this.#generationCount < 100;
     while (coordinateAlreadyGuessed && notOutOfCoordinates) {
-      console.log("*");
       coordinate = [this.#getRandomInt(), this.#getRandomInt()];
       coordinateAlreadyGuessed = this.#usedCoordinates.contains([coordinate]);
     }
@@ -64,5 +63,20 @@ export default class CoordinateGenerator {
   reset() {
     this.#usedCoordinates = coordinateList();
     this.#generationCount = 0;
+  }
+
+  /**
+   * Add a set of coordinates to the list of guessed coordinates. This is
+   * useful when we know our next guess and we don't need to use the random
+   * coordinate generator. Even though we know our next guess, we still need to
+   * tell this class about that guess. This way this class doesn't guess that
+   * same coordinate later on.
+   * coords = [int, int]
+   */
+  add(coords) {
+    if (this.#usedCoordinates.contains([coords])) return false;
+    this.#usedCoordinates.add([coords]);
+    ++this.#generationCount;
+    return true;
   }
 }
