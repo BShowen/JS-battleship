@@ -79,4 +79,8 @@ export default class CoordinateGenerator {
     ++this.#generationCount;
     return true;
   }
+
+  contains(coords) {
+    return this.#usedCoordinates.contains([coords]);
+  }
 }
