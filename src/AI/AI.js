@@ -1,12 +1,17 @@
 import Player from "../dom/Player";
 import shipCoordinateGenerator from "./shipCoordinateGenerator";
 import CoordinateGenerator from "./CoordinateGenerator";
+import SmartGuesser from "./SmartGuesser";
+import getAllShips from "./ships";
 
 /**
  * The AI class extends the Player.js class and adds functionality to it.
  */
 export default class AI extends Player {
   #shipCoordGenerator;
+
+  #smartGuesser;
+  #ships = getAllShips();
 
   #coordinateGenerator = new CoordinateGenerator();
 
@@ -26,8 +31,48 @@ export default class AI extends Player {
 
   // opponentCallback = A callback passed in from Game.js
   takeTurn(opponentCallback) {
-    const AIGuess = this.#coordinateGenerator.getCoords(); //[int, int]
-    opponentCallback(AIGuess);
+    const coords = this.#createGuessCoordinates(); //[int, int]
+    const [isHit, shipName] = opponentCallback(coords); // [boolean, shipName]
+    // console.log({ coords, isHit, shipName });
+
+    if (this.#smartGuesser) {
+      this.#smartGuesser.receiveFeedback(isHit);
+    }
+
+    if (isHit && this.#smartGuesser == null) {
+      this.#smartGuesser = new SmartGuesser(true, coords);
+    }
+
+    if (shipName) {
+      this.#ships[shipName].takeHit();
+      if (this.#ships[shipName].isSunk()) {
+        this.#smartGuesser = null;
+      }
+    }
+  }
+
+  #createGuessCoordinates() {
+    let guess;
+
+    if (this.#smartGuesser) {
+      guess = this.#getSmartGuess();
+      this.#coordinateGenerator.add(guess);
+    } else {
+      guess = this.#coordinateGenerator.getCoords(); //[int, int]
+    }
+
+    return guess;
+  }
+
+  #getSmartGuess() {
+    let guess;
+    do {
+      guess = this.#smartGuesser.getNextGuess(); //[int, int]
+      if (this.#coordinateGenerator.contains(guess)) {
+        this.#smartGuesser.receiveFeedback(false);
+      }
+    } while (this.#coordinateGenerator.contains(guess));
+    return guess;
   }
 
   placeShips(callback) {
