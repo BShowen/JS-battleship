@@ -33,7 +33,6 @@ export default class AI extends Player {
   takeTurn(opponentCallback) {
     const coords = this.#createGuessCoordinates(); //[int, int]
     const [isHit, shipName] = opponentCallback(coords); // [boolean, shipName]
-    // console.log({ coords, isHit, shipName });
 
     if (this.#smartGuesser) {
       this.#smartGuesser.receiveFeedback(isHit);
@@ -66,13 +65,24 @@ export default class AI extends Player {
 
   #getSmartGuess() {
     let guess;
+    let isCoordValid;
     do {
       guess = this.#smartGuesser.getNextGuess(); //[int, int]
-      if (this.#coordinateGenerator.contains(guess)) {
+      isCoordValid = this.#validateCoord(guess);
+      if (this.#coordinateGenerator.contains(guess) || !isCoordValid) {
         this.#smartGuesser.receiveFeedback(false);
       }
-    } while (this.#coordinateGenerator.contains(guess));
+    } while (this.#coordinateGenerator.contains(guess) || !isCoordValid);
     return guess;
+  }
+
+  // coord = [int, int]
+  #validateCoord(coord) {
+    const [row, column] = coord;
+    if (row > 9 || row < 0 || column > 9 || column < 0) {
+      return false;
+    }
+    return true;
   }
 
   placeShips(callback) {
