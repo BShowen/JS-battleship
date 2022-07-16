@@ -14,7 +14,6 @@
   padding: 10px;
   max-width: 500px;
   gap: 30px;
-  border: 2px solid red;
   width: 100%;
 }
 
@@ -30,4 +29,5 @@
 
 .mock-ship .damaged{
   background-color: red;
+  border-color: red;
 }

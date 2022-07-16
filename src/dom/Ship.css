@@ -18,6 +18,6 @@ div[data-orientation*="horizontal"]{
 .ship-body{
   border: 1px solid cadetblue;
   background-color: cadetblue;
-  height: 30px;
-  width: 30px;
+  height: 50px;
+  width: 50px;
 }
