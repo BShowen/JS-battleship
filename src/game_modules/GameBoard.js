@@ -1,13 +1,13 @@
 import Ship from "./Ship";
 import coordinateList from "./coordinateList";
 
-export default function GameBoard() {
+export default class GameBoard {
   /**
    * We need to store ship coordinates for a couple reasons.
    *  • Ship placement validation. Ships cannot overlap.
    *  • This acts as a cache for checking if a players move lands on a ship.
    */
-  const _shipCoordinates = coordinateList();
+  #shipCoordinates = coordinateList();
 
   /**
    * Store a reference to all the ships on this board.
@@ -15,22 +15,22 @@ export default function GameBoard() {
    *  • So we can determine if a game is over when all ships are sunk.
    *  • Ships are only pushed to this array. NEVER removed.
    */
-  const _floatingShips = [];
+  #floatingShips = [];
   /**
    * Store the number of sunken ships.
    *  • So we can tell when the game is over.
    */
-  let _sunkenShips = 0;
+  #sunkenShips = 0;
 
   /**
    * Store any hits that have been received.
    *  • So we can properly display the board in the DOM.
    */
-  const _allReceivedHits = coordinateList();
+  #allReceivedHits = coordinateList();
 
   // coords = [[int,int], ...[int,int]]
   // Return true if a coordinate is out of bounds, otherwise return false.
-  function _outOfBounds(coords) {
+  #outOfBounds(coords) {
     return coords.some((coordinate) => {
       const [row, col] = coordinate;
       return row < 0 || row > 9 || col < 0 || col > 9;
@@ -39,28 +39,29 @@ export default function GameBoard() {
 
   // Attempt to place a ship on the board.
   // Return true is successful otherwise return false.
-  function placeShip(coords, shipName) {
+  placeShip(coords, shipName) {
     if (
       coords.length === 0 || //Ensure coordinates are provided.
-      _shipCoordinates.contains(coords) || //Ensure coordinates are empty.
-      _outOfBounds(coords) //Ensure coordinates are within bounds.
+      this.#shipCoordinates.contains(coords) || //Ensure coordinates are empty.
+      this.#outOfBounds(coords) //Ensure coordinates are within bounds.
     ) {
       return false;
     }
-    _shipCoordinates.add(coords);
-    _floatingShips.push(new Ship(coords, shipName));
+    this.#shipCoordinates.add(coords);
+    this.#floatingShips.push(new Ship(coords, shipName));
     return true;
   }
 
   // coords = [int,int]
-  function receiveAttack(coords) {
-    if (!_allReceivedHits.contains([coords])) _allReceivedHits.add([coords]);
+  receiveAttack(coords) {
+    if (!this.#allReceivedHits.contains([coords]))
+      this.#allReceivedHits.add([coords]);
 
-    if (_shipCoordinates.contains([coords])) {
-      for (const ship of _floatingShips) {
+    if (this.#shipCoordinates.contains([coords])) {
+      for (const ship of this.#floatingShips) {
         if (ship.hit(coords)) {
           if (ship.isSunk()) {
-            _sunkenShips++;
+            this.#sunkenShips++;
           }
           return [true, ship.name];
         }
@@ -72,28 +73,27 @@ export default function GameBoard() {
 
   // Return true if there are floating ships on the board.
   // Return false if all ships have been sunk.
-  function hasFloatingShips() {
-    return !(_sunkenShips === _floatingShips.length);
+  hasFloatingShips() {
+    return !(this.#sunkenShips === this.#floatingShips.length);
   }
 
   // Return true if this coordinate has not been selected.
   // Return false if this coordinate has been previously selected.
   // coords = [int, int]
-  function coordIsValid(coords) {
-    return !_allReceivedHits.contains([coords]);
+  coordIsValid(coords) {
+    return !this.#allReceivedHits.contains([coords]);
   }
 
   //Return true if a ship is located on the passed in coordinates.
   // This method is used to show ships on the board.
-  function isShipPosition(coords) {
-    return _shipCoordinates.contains([coords]);
+  isShipPosition(coords) {
+    return this.#shipCoordinates.contains([coords]);
   }
 
-  return {
-    placeShip,
-    receiveAttack,
-    hasFloatingShips,
-    coordIsValid,
-    isShipPosition,
-  };
+  reset() {
+    this.#shipCoordinates = coordinateList();
+    this.#floatingShips = [];
+    this.#sunkenShips = 0;
+    this.#allReceivedHits = coordinateList();
+  }
 }

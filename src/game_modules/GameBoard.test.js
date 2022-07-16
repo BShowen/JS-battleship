@@ -51,12 +51,14 @@ describe("Receiving attack commands", () => {
   });
 
   test("Responds properly to missed hits", () => {
-    expect(board.receiveAttack([1, 1])).not.toBeTruthy();
+    const results = board.receiveAttack([1, 1]);
+    expect(results[0]).not.toBeTruthy();
   });
 
   test("Doesn't allow ship hits on the same coordinate", () => {
     board.receiveAttack([0, 0]);
-    expect(board.receiveAttack([0, 0])).not.toBeTruthy();
+    const results = board.receiveAttack([0, 0]);
+    expect(results[0]).not.toBeTruthy();
   });
 });
 
