@@ -6,6 +6,7 @@ import ShipSelector from "./ShipSelector";
 import { HtmlElement } from "@bshowen/htmlelement";
 import FleetStatus from "./FleetStatus";
 import playerNameComponent from "./playerNameComponent";
+import shipCoordinateGenerator from "./../AI/shipCoordinateGenerator";
 
 /**
  * This is a representation of the game board in the DOM. This is the class that
@@ -53,6 +54,8 @@ export default class Player {
      * this class.
      */
     this.placeShip = this.placeShip.bind(this);
+
+    this.randomlyPlaceShips = this.randomlyPlaceShips.bind(this);
 
     this.receiveAttack = this.receiveAttack.bind(this);
   }
@@ -137,11 +140,29 @@ export default class Player {
      * Create and render the container that holds all the ships so the user can
      * place them on the board.
      */
-    this.shipSelector = new ShipSelector(donePlacingShips);
+    this.shipSelector = new ShipSelector(
+      donePlacingShips,
+      this.randomlyPlaceShips
+    );
     this.shipSelector.render();
 
     // Render the game board
     this.render();
+  }
+
+  // This method will place the ships randomly on the board.
+  randomlyPlaceShips() {
+    const coordGenerator = shipCoordinateGenerator();
+    const shipNames = [
+      "carrier",
+      "battleship",
+      "cruiser",
+      "submarine",
+      "destroyer",
+    ];
+    shipNames.forEach((shipName) => {
+      this.placeShip(coordGenerator.getShipCoords(shipName), shipName);
+    });
   }
 
   // Create the DOM board and populate the boardSquares array.

@@ -2,6 +2,7 @@ import { HtmlElement } from "@bshowen/htmlelement";
 import Ship from "./Ship";
 import rootNode from "../rootNode";
 import "./shipSelector.css";
+import randomizer from "./randomizer";
 
 /**
  * This class creates the DOM element that holds all the ships for the user to
@@ -17,20 +18,27 @@ export default class ShipSelector {
     classList: ["ship-selector-container"],
   });
 
+  #shipsContainer = new HtmlElement({
+    type: "div",
+    classList: ["ships-container"],
+  });
+
   // donePlacingShips = A callback passed in from Board.js
-  constructor(donePlacingShips) {
+  constructor(donePlacingShips, randomlyPlaceShips) {
     this.#donePlacingShips = donePlacingShips;
 
     this.#initializeShips();
+
+    this.clickHandler = this.clickHandler.bind(this, randomlyPlaceShips);
   }
 
   #initializeShips() {
     this.ships = [
-      new Ship(5, "0", this.#container, "carrier"),
-      new Ship(4, "1", this.#container, "battleship"),
-      new Ship(3, "2", this.#container, "cruiser"),
-      new Ship(3, "3", this.#container, "submarine"),
-      new Ship(2, "4", this.#container, "destroyer"),
+      new Ship(5, "0", this.#shipsContainer, "carrier"),
+      new Ship(4, "1", this.#shipsContainer, "battleship"),
+      new Ship(3, "2", this.#shipsContainer, "cruiser"),
+      new Ship(3, "3", this.#shipsContainer, "submarine"),
+      new Ship(2, "4", this.#shipsContainer, "destroyer"),
     ];
     this.ships.forEach((ship) => ship.render());
   }
@@ -48,8 +56,21 @@ export default class ShipSelector {
     }
   }
 
+  /**
+   * randomlyPlaceShips = A callback passed in from Player.js
+   */
+  clickHandler(randomlyPlaceShips) {
+    // Remove all the ships from the ship selector because they are going to
+    // be placed randomly.
+    this.ships.forEach((ship) => ship.remove());
+
+    randomlyPlaceShips();
+  }
+
   // Render this element in the DOM.
   render() {
+    this.#container.appendChild(randomizer(this.clickHandler));
+    this.#container.appendChild(this.#shipsContainer);
     rootNode.appendChild(this.#container);
   }
 }
