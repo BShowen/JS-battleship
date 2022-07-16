@@ -1,27 +1,22 @@
 import "./GameMenu.css";
 import { HtmlElement } from "@bshowen/htmlelement";
+import Toast from "./Toast";
 
 export default class GameMenu {
   static toast(message) {
     if (message == undefined) return;
 
-    const toastContainer = new HtmlElement({
-      type: "div",
-      id: "toast-container",
-    });
-
-    const toastContent = new HtmlElement({ type: "div", id: "toast-content" });
-
-    const toastMessage = new HtmlElement({ type: "p", innerText: message });
-
-    function removeToast() {
-      toastContainer.remove();
-    }
-
-    toastContainer.appendChild(toastContent);
-    toastContent.appendChild(toastMessage);
+    // Find or create the container for the toast messages to populate.
+    const toastContainer =
+      document.querySelector("#toast-container") ||
+      new HtmlElement({
+        type: "div",
+        id: "toast-container",
+      });
     document.body.appendChild(toastContainer);
-    setTimeout(removeToast, 1500);
+
+    // Create the toast message and render it in the toast container.
+    new Toast(message).render(toastContainer);
   }
 
   /**

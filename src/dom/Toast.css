@@ -1,0 +1,21 @@
+.toast-message{
+  overflow: hidden;
+  border-radius: 3px;
+  border: 1px solid #B8DAFF;
+  background-color: #CCE5FF;
+  min-width: 100px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  padding: 5px;
+  height: 3rem;
+  transition: height 0.2s, padding 0.2s;
+}
+
+.remove{
+  height: 0;
+  padding: 0;
+  border: none;
+}
