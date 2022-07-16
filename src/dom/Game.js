@@ -86,7 +86,9 @@ export default class Game {
        * Tell AI to take its turn. AI needs a callback, which is the opponents
        * "receiveAttack" method. AI will call this callback with its guess.
        */
-      attacker.takeTurn(opponent.receiveAttack);
+      setTimeout(() => {
+        attacker.takeTurn(opponent.receiveAttack);
+      }, 1000);
     } else {
       opponent.enableClick();
     }
