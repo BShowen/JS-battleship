@@ -40,6 +40,15 @@ export default class Game {
   }
 
   /**
+   * Return the player that just made the attack. This function is used only in
+   * this.#toggle_Turn to display the users name in the toast message.
+   */
+  #attacker() {
+    const i = this.#i + 1;
+    return this.players[i % 2];
+  }
+
+  /**
    * This method is responsible for checking to see if the current player is
    * alive and calls the appropriate handler for each scenario.
    *
@@ -51,8 +60,8 @@ export default class Game {
   #toggle_Turn(hitOrMiss) {
     const message = (() => {
       if (hitOrMiss == undefined) return;
-      if (hitOrMiss) return "Direct hit!";
-      return "Miss!";
+      if (hitOrMiss) return `${this.#attacker().name}: Direct hit!`;
+      return `${this.#attacker().name}: Miss!`;
     })();
 
     if (this.#currentPlayer().isAlive()) {
