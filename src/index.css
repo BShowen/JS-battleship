@@ -11,11 +11,20 @@ html, body {
 #app {
   height: 100%;
   margin: 0;
+  overflow: hidden;
+  transition: height 500ms cubic-bezier(0, 0, 0.58, 1.0);
+  background-color: #EEEEEE;
+}
+
+#app.main-menu{
   background-image: url("./images/Battleship_banner.jpeg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  overflow: hidden;
+}
+
+#app.game-in-progress {
+  height: 0;
 }
 
 #boards-container{
