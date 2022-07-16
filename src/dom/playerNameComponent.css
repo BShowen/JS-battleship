@@ -1,0 +1,11 @@
+.display-name{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.display-name > p {
+  margin: 0;
+  font-size: 3.5rem;
+}

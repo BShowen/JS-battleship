@@ -5,6 +5,7 @@ import GameBoard from "../game_modules/GameBoard";
 import ShipSelector from "./ShipSelector";
 import { HtmlElement } from "@bshowen/htmlelement";
 import FleetStatus from "./FleetStatus";
+import playerNameComponent from "./playerNameComponent";
 
 /**
  * This is a representation of the game board in the DOM. This is the class that
@@ -44,8 +45,7 @@ export default class Player {
 
     this.#parentNode = parentNode;
 
-    const displayText = new HtmlElement({ type: "p", innerText: displayName });
-    this.#container.appendChild(displayText);
+    this.#container.appendChild(playerNameComponent(displayName));
 
     /**
      * This method is passed into Square.js as a callback. So I need to set the
