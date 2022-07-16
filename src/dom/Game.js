@@ -97,7 +97,7 @@ export default class Game {
        */
       setTimeout(() => {
         attacker.takeTurn(opponent.receiveAttack);
-      }, 1000);
+      }, 800);
     } else {
       opponent.enableClick();
     }
