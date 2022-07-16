@@ -40,7 +40,11 @@ export default function GameBoard() {
   // Attempt to place a ship on the board.
   // Return true is successful otherwise return false.
   function placeShip(coords, shipName) {
-    if (_shipCoordinates.contains(coords) || _outOfBounds(coords)) {
+    if (
+      coords.length === 0 || //Ensure coordinates are provided.
+      _shipCoordinates.contains(coords) || //Ensure coordinates are empty.
+      _outOfBounds(coords) //Ensure coordinates are within bounds.
+    ) {
       return false;
     }
     _shipCoordinates.add(coords);

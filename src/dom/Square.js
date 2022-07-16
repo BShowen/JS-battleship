@@ -3,10 +3,10 @@ import "./Square.css";
 
 /**
  * coordinates = [int,int]
- * receiveAttack = A callback passed in from Board.js
- * placeShip = A callback passed in from Board.js
- * gameBoard = An instance of GameBoard.js passed in from Board.js
- * shipSelector = An instance of ShipSelector.js passed in from Board.js
+ * receiveAttack = A callback passed in from Player.js
+ * placeShip = A callback passed in from Player.js
+ * gameBoard = An instance of GameBoard.js passed in from Player.js
+ * shipSelector = An instance of ShipSelector.js passed in from Player.js
  */
 export default class Square {
   // See this.#drop_handler for an explanation of this method.
