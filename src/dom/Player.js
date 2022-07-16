@@ -152,6 +152,8 @@ export default class Player {
 
   // This method will place the ships randomly on the board.
   randomlyPlaceShips() {
+    this.#gameBoard.reset();
+    this.render();
     const coordGenerator = shipCoordinateGenerator();
     const shipNames = [
       "carrier",
