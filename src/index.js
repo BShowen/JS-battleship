@@ -20,10 +20,5 @@ const app = (() => {
   appRoot.appendChild(boardsContainer);
   appRoot.appendChild(fleetStatusContainer);
 
-  const game = new Game(boardsContainer);
-
-  GameMenu.renderGameSelectionMenu(appRoot, {
-    twoPlayer: game.startGame.bind(game),
-    singlePlayer: game.startGame.bind(game, { singlePlayer: true }),
-  });
+  GameMenu.renderGameSelectionMenu(appRoot, new Game(boardsContainer));
 })();

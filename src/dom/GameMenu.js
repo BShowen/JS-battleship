@@ -24,7 +24,12 @@ export default class GameMenu {
     setTimeout(removeToast, 1500);
   }
 
-  static renderGameSelectionMenu(root, options = { twoPlayer, singlePlayer }) {
+  /**
+   * root = The container where this component should insert itself.
+   * game = An instance of the game. game.startGame() is called when a player
+   * selects "single player" or "two player".
+   */
+  static renderGameSelectionMenu(root, game) {
     const container = new HtmlElement({
       type: "div",
       id: "game-menu-container",
@@ -52,14 +57,14 @@ export default class GameMenu {
     function playTwoPlayerGame() {
       setTimeout(() => {
         container.remove();
-        options.twoPlayer();
+        game.startGame();
       }, 250);
     }
 
     function playAgainstAI() {
       setTimeout(() => {
         container.remove();
-        options.singlePlayer();
+        game.startGame({ singlePlayer: true });
       }, 250);
     }
 
