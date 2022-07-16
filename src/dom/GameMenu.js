@@ -30,22 +30,6 @@ export default class GameMenu {
       id: "game-menu-container",
     });
 
-    const titleElement = (() => {
-      const container = new HtmlElement({
-        type: "div",
-        id: "menu-title",
-      });
-
-      const title = new HtmlElement({
-        type: "p",
-        id: "title-text",
-        innerText: "Let's play Battleship!",
-      });
-
-      container.appendChild(title);
-      return container;
-    })();
-
     const menuElement = (() => {
       const container = new HtmlElement({ type: "div", id: "menu-container" });
       return container;
@@ -66,18 +50,21 @@ export default class GameMenu {
     }
 
     function playTwoPlayerGame() {
-      container.remove();
-      options.twoPlayer();
+      setTimeout(() => {
+        container.remove();
+        options.twoPlayer();
+      }, 250);
     }
 
     function playAgainstAI() {
-      container.remove();
-      options.singlePlayer();
+      setTimeout(() => {
+        container.remove();
+        options.singlePlayer();
+      }, 250);
     }
 
-    menuElement.appendChild(titleElement);
-    menuElement.appendChild(new Button("Two player", playTwoPlayerGame));
     menuElement.appendChild(new Button("Single player", playAgainstAI));
+    menuElement.appendChild(new Button("Two player", playTwoPlayerGame));
     container.appendChild(menuElement);
     root.appendChild(container);
   }
