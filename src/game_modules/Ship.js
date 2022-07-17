@@ -1,25 +1,39 @@
 import coordinateList from "./coordinateList";
 
-export default function Ship(coords, shipName) {
-  const _length = coords.length;
-  let _hits = 0;
-  const _shipCoords = coordinateList(coords);
+export default class Ship {
+  #length;
+  #hits = 0;
+  #shipCoords;
+  #name;
+
+  constructor(coords, shipName) {
+    this.#name = shipName;
+
+    if (coords != null) {
+      this.#length = coords.length;
+      this.#shipCoords = coordinateList(coords);
+    } else {
+      this.#length = undefined;
+      this.hit = undefined;
+      this.isSunk = undefined;
+    }
+  }
+
+  get name() {
+    return this.#name;
+  }
 
   //Attempt a hit on this ship.
-  const hit = function (coords) {
-    if (_hits != _length && _shipCoords.contains([coords])) {
-      _shipCoords.remove(coords);
-      _hits++;
+  hit(coords) {
+    if (this.#hits != this.#length && this.#shipCoords.contains([coords])) {
+      this.#shipCoords.remove(coords);
+      this.#hits++;
       return true;
     }
     return false;
-  };
+  }
 
-  const isSunk = function () {
-    return _length === _hits;
-  };
-
-  const name = shipName;
-
-  return { hit, isSunk, name };
+  isSunk() {
+    return this.#length === this.#hits;
+  }
 }

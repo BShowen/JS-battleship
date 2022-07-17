@@ -58,3 +58,35 @@ describe("Sinking a ship", () => {
     expect(ship.isSunk()).toBeTruthy();
   });
 });
+
+describe("Ships can be instantiated without coordinates", () => {
+  test("Returns a ships name", () => {
+    const ship = new Ship([[0, 0][(0, 1)]], "Carrier");
+    expect(ship.name).toBe("Carrier");
+  });
+
+  it("Instantiates a ship without coordinates", () => {
+    const ship = new Ship(null, "Submarine");
+    expect(ship.name).toBe("Submarine");
+  });
+});
+
+describe("Some methods are undefined without coordinates", () => {
+  let ship;
+  beforeEach(() => {
+    ship = new Ship(null, "Carrier");
+  });
+
+  test("The hit method is undefined", () => {
+    expect(ship.hit).toBe(undefined);
+  });
+
+  test("The isSunk method is undefined", () => {
+    expect(ship.isSunk).toBe(undefined);
+  });
+
+  test("The name method is NOT undefined", () => {
+    expect(ship.name).not.toBe(undefined);
+    expect(ship.name).toBe("Carrier");
+  });
+});
