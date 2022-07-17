@@ -29,11 +29,7 @@ const coordinateList = function (coords) {
     });
   }
 
-  function peek() {
-    console.table(_coordinates);
-  }
-
-  return { contains, add, remove, peek };
+  return { contains, add, remove };
 };
 
 export default coordinateList;
