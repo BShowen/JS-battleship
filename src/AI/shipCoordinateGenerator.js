@@ -107,7 +107,7 @@ export default function shipCoordinateGenerator() {
    * Get a unique pair of coordinates. The loop continues until the initial
    * coordinates are coordinates that have not been previously used.
    * Returns an array of two ints.
-   * Returns: [int, int]
+   * Returns: [[int, int]]
    */
   function _getUniqueCoordinate() {
     let uniqueCoordinate;
