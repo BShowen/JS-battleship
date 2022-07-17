@@ -1,3 +1,11 @@
+/**
+ * This is a utility method that keeps track of coordinates.
+ *
+ * Use the add() method to add coordinates to the list.
+ * Use the contains() method to see if this list already contains the coordinate
+ * Use the remove() method to remove a coordinate from the list.
+ */
+
 const coordinateList = function (coords) {
   const _coordinates = coords || [];
 
