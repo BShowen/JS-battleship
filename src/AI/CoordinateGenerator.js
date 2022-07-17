@@ -1,5 +1,19 @@
 import coordinateList from "../game_modules/coordinateList.js";
 
+/**
+ * This class is responsible for generating a unique coordinate. Thats all that
+ * this class does. You will use the method getCoords() to get a random
+ * [int,int] coordinate. This coordinate will be unique in that it will not have
+ * been returned twice by the same instance of this class.
+ *
+ * Use the method add() if you generate a coordinate outside of this class and
+ * want this class to know about that coordinate so that you will not receive
+ * that coordinate back from this class.
+ *
+ * Use the method contains() in order to see if this class has already generated
+ * that coordinate.
+ */
+
 export default class CoordinateGenerator {
   /**
    * Store a reference to coordinates already used.

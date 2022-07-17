@@ -2,8 +2,12 @@ import coordinateList from "../game_modules/coordinateList";
 import CoordinateGenerator from "./CoordinateGenerator";
 
 /**
- * This function generates the coordinates to randomly place ships on the
- * game board. The AI class imports and calls this function.
+ * This module generates the coordinates to randomly place ships on the
+ * game board. The only public method on this module is called getShipCoords()
+ * which accepts a shipName (string) and returns a set of coordinates to place
+ * that ship on the game board. This class ensures that a ship will not overlap
+ * on top of another ship and that a ship will not go out of the bounds of the
+ * game board.
  */
 
 export default function shipCoordinateGenerator() {
