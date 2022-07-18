@@ -63,7 +63,7 @@ export default class Player {
   // coords = [int, int]
   receiveAttack(coords) {
     const [row, column] = coords;
-    const [isHit, shipName] = this.#gameBoard.receiveAttack(coords);
+    const [isHit, shipName, isSunk] = this.#gameBoard.receiveAttack(coords);
     if (isHit) {
       this.fleetStatus.shipIsHit(shipName);
       this.#boardSquares[row][column].fill(true);
@@ -71,7 +71,7 @@ export default class Player {
       this.#boardSquares[row][column].fill(false);
     }
     this.toggleTurn(isHit);
-    return [isHit, shipName];
+    return [isHit, shipName, isSunk];
   }
 
   /**

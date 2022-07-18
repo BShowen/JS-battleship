@@ -63,12 +63,12 @@ export default class GameBoard {
           if (ship.isSunk()) {
             this.#sunkenShips++;
           }
-          return [true, ship.name];
+          return [true, ship.name, ship.isSunk()];
         }
       }
     }
 
-    return [false, null];
+    return [false, null, null];
   }
 
   // Return true if there are floating ships on the board.

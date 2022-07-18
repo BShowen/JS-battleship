@@ -2,7 +2,6 @@ import Player from "../dom/Player";
 import shipCoordinateGenerator from "./shipCoordinateGenerator";
 import CoordinateGenerator from "./CoordinateGenerator";
 import SmartGuesser from "./SmartGuesser";
-import getAllShips from "./ships";
 
 /**
  * The AI class extends the Player.js class and adds functionality to it.
@@ -11,7 +10,6 @@ export default class AI extends Player {
   #shipCoordGenerator;
 
   #smartGuesser;
-  #ships = getAllShips();
 
   #coordinateGenerator = new CoordinateGenerator();
 
@@ -32,21 +30,38 @@ export default class AI extends Player {
   // opponentCallback = A callback passed in from Game.js
   takeTurn(opponentCallback) {
     const coords = this.#createGuessCoordinates(); //[int, int]
-    const [isHit, shipName] = opponentCallback(coords); // [boolean, shipName]
 
+    // [boolean, string (shipName), boolean]
+    const [isHit, _, isSunk] = opponentCallback(coords);
+
+    /**
+     * If smartGuesser is instantiated then that means AI is focused on a a ship
+     * and is currently attacking a specific ship. The smartGuesser needs to
+     * receive feedback in order to make its next guess.
+     */
     if (this.#smartGuesser) {
       this.#smartGuesser.receiveFeedback(isHit);
     }
 
+    /**
+     * If AI just hit a ship, and smartGuesser is not instantiated, then that
+     * means that this is an initial direct hit. AI will now instantiate
+     * smartGuesser in order to focus on this ship and take it out. All future
+     * guesses will come from smartGuesser. Once the ship is taken out,
+     * smartGuesser will be removed until the next direct hit.
+     */
     if (isHit && this.#smartGuesser == null) {
       this.#smartGuesser = new SmartGuesser(true, coords);
     }
 
-    if (shipName) {
-      this.#ships[shipName].takeHit();
-      if (this.#ships[shipName].isSunk()) {
-        this.#smartGuesser = null;
-      }
+    /**
+     * If the ship that AI is focused on was just sunk, then we can remove
+     * smartGuesser so that AI will start making random guesses. When AI makes
+     * a direct hit on another ship, then smartGuesser will be instantiated and
+     * AI will focus on taking out that ship.
+     */
+    if (isSunk) {
+      this.#smartGuesser = null;
     }
   }
 
