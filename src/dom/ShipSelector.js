@@ -28,6 +28,8 @@ export default class ShipSelector {
     this.#initializeShips();
 
     this.clickHandler = this.clickHandler.bind(this, randomlyPlaceShips);
+
+    this.allShipsPlaced = this.#allShipsPlaced.bind(this);
   }
 
   #initializeShips() {
@@ -49,9 +51,13 @@ export default class ShipSelector {
     this.ships[i].remove();
     this.ships[i] = null;
     if (this.ships.every((element) => element == null)) {
-      this.#container.remove();
-      this.#donePlacingShips();
+      this.#allShipsPlaced();
     }
+  }
+
+  #allShipsPlaced() {
+    this.#container.remove();
+    this.#donePlacingShips();
   }
 
   /**
@@ -67,7 +73,9 @@ export default class ShipSelector {
 
   // Render this element in the DOM.
   render() {
-    this.#container.appendChild(randomizer(this.clickHandler));
+    this.#container.appendChild(
+      randomizer(this.clickHandler, this.allShipsPlaced)
+    );
     this.#container.appendChild(this.#shipsContainer);
     rootNode.appendChild(this.#container);
   }
