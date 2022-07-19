@@ -3,6 +3,7 @@ import Ship from "./Ship";
 import rootNode from "../rootNode";
 import "./shipSelector.css";
 import randomizer from "./randomizer";
+import shipsContainer from "./shipsContainer";
 
 /**
  * This class creates the DOM element that holds all the ships for the user to
@@ -18,10 +19,7 @@ export default class ShipSelector {
     classList: ["ship-selector-container"],
   });
 
-  #shipsContainer = new HtmlElement({
-    type: "div",
-    classList: ["ships-container"],
-  });
+  #shipsContainer = shipsContainer();
 
   // donePlacingShips = A callback passed in from Board.js
   constructor(donePlacingShips, randomlyPlaceShips) {
@@ -62,7 +60,7 @@ export default class ShipSelector {
   clickHandler(randomlyPlaceShips) {
     // Remove all the ships from the ship selector because they are going to
     // be placed randomly.
-    this.ships.forEach((ship) => ship.remove());
+    this.#shipsContainer.remove();
 
     randomlyPlaceShips();
   }

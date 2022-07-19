@@ -9,11 +9,21 @@
 .ships-container {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
-  gap: 30px;
-  max-width: min-content;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-width: 30rem;
+  padding-bottom: 30px;
 }
 
 .ships-container > div {
   height: min-content;
+  margin: 5px 15px;
+}
+
+#instructions-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: x-large;
 }
