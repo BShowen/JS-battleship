@@ -7,6 +7,9 @@ import coordinateList from "./coordinateList";
  *
  * shipCoords = An instance of coordinateList.js, populated with a ships
  * coordinate positions
+ *
+ * This function returns an instance of coordinateList.js, populated with the
+ * coordinates around a particular ship aka buffer coords.
  */
 export default function getBufferCoords(shipCoords) {
   /**
