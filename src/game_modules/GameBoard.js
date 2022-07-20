@@ -42,14 +42,29 @@ export default class GameBoard {
   placeShip(coords, shipName) {
     if (
       coords.length === 0 || //Ensure coordinates are provided.
-      this.#shipCoordinates.contains(coords) || //Ensure coordinates are empty.
-      this.#outOfBounds(coords) //Ensure coordinates are within bounds.
+      //Ensure there isn't a ship already on this spot.
+      this.#shipCoordinates.contains(coords) ||
+      this.#outOfBounds(coords) || //Ensure coordinates are within bounds.
+      this.shipsAreTouching(coords)
     ) {
       return false;
     }
     this.#shipCoordinates.add(coords);
     this.#floatingShips.push(new Ship(coords, shipName));
     return true;
+  }
+
+  /**
+   * Return true if ships are touching.
+   * Return false if ships aren't touching.
+   * incomingShipCoords = [[int,int],[int,int],...[int,int]]
+   */
+  shipsAreTouching(incomingShipCoords) {
+    return incomingShipCoords.some((coordinate) => {
+      return this.#floatingShips.some((ship) => {
+        return ship.getBufferCoords().contains([coordinate]);
+      });
+    });
   }
 
   // coords = [int,int]

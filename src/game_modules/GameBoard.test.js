@@ -32,6 +32,36 @@ describe("Test the placement of ships", () => {
     expect(board.placeShip(coords_1)).not.toBeTruthy();
     expect(board.placeShip(coords_2)).not.toBeTruthy();
   });
+
+  test("Ships cannot touch", () => {
+    const ship1 = [
+      [1, 1],
+      [1, 2],
+      [1, 3],
+    ];
+    const ship2 = [
+      [2, 1],
+      [3, 1],
+      [4, 1],
+    ];
+    expect(board.placeShip(ship1)).toBeTruthy();
+    expect(board.placeShip(ship2)).not.toBeTruthy();
+  });
+
+  test("Test the shipsAreTouching() method", () => {
+    board.placeShip([
+      [3, 3],
+      [4, 3],
+      [5, 3],
+    ]);
+    expect(
+      board.shipsAreTouching([
+        [4, 4],
+        [4, 5],
+        [4, 6],
+      ])
+    ).toBeTruthy();
+  });
 });
 
 describe("Receiving attack commands", () => {
