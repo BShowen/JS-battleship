@@ -4,7 +4,7 @@ import coordinateList from "./coordinateList";
 export default class GameBoard {
   /**
    * We need to store ship coordinates for a couple reasons.
-   *  • Ship placement validation. Ships cannot overlap.
+   *  • Ship placement validation i.e. ships cannot overlap.
    *  • This acts as a cache for checking if a players move lands on a ship.
    */
   #shipCoordinates = coordinateList();
