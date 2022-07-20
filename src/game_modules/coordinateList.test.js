@@ -107,3 +107,48 @@ describe("The 'all' method", () => {
     expect(list.contains([[0, 0]])).toBeTruthy();
   });
 });
+
+describe("The length of the list", () => {
+  let list;
+  beforeEach(() => {
+    list = coordinateList();
+  });
+
+  test("The length is initialized to zero", () => {
+    expect(coordinateList().length()).toBe(0);
+  });
+
+  test("length is initialize to length of provided coordinate list", () => {
+    expect(
+      coordinateList([
+        [0, 0],
+        [0, 1],
+      ]).length()
+    ).toBe(2);
+  });
+
+  test("The length of the list gets updated after adding coords", () => {
+    list.add([[0, 0]]);
+    expect(list.length()).toBe(1);
+    list.add([[0, 1]]);
+    expect(list.length()).toBe(2);
+  });
+
+  test("We can add multiple coords at once and length is correct", () => {
+    list.add([
+      [0, 0],
+      [0, 1],
+      [0, 2],
+    ]);
+    expect(list.length()).toBe(3);
+  });
+
+  test("The length of the list get updated after removing coords", () => {
+    list.add([
+      [0, 0],
+      [0, 1],
+    ]);
+    list.remove([0, 0]);
+    expect(list.length()).toBe(1);
+  });
+});

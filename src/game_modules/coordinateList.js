@@ -8,6 +8,7 @@
 
 const coordinateList = function (coords) {
   const _coordinates = coords || [];
+  let _length = _coordinates.length;
 
   // coords = [[int, int],[int,int], ..., [int, int]];
   function contains(coords) {
@@ -22,6 +23,7 @@ const coordinateList = function (coords) {
   function add(coords) {
     coords.forEach((coord) => {
       _coordinates.push(coord);
+      ++_length;
     });
     return true;
   }
@@ -32,6 +34,7 @@ const coordinateList = function (coords) {
     return _coordinates.some((coordinate, index) => {
       if (coordinate.join("") === coords.join("")) {
         _coordinates.splice(index, 1);
+        --_length;
         return true;
       }
     });
@@ -41,7 +44,11 @@ const coordinateList = function (coords) {
     return _coordinates.slice();
   }
 
-  return { contains, add, remove, all };
+  function length() {
+    return _length;
+  }
+
+  return { contains, add, remove, all, length };
 };
 
 export default coordinateList;
