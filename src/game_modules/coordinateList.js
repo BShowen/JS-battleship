@@ -37,7 +37,11 @@ const coordinateList = function (coords) {
     });
   }
 
-  return { contains, add, remove };
+  function all() {
+    return _coordinates.slice();
+  }
+
+  return { contains, add, remove, all };
 };
 
 export default coordinateList;

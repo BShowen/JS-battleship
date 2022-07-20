@@ -80,3 +80,30 @@ describe("The 'remove' method", () => {
     expect(list.contains([[0, 0]])).not.toBeTruthy();
   });
 });
+
+describe("The 'all' method", () => {
+  let list;
+  beforeEach(() => {
+    list = coordinateList([
+      [0, 0],
+      [1, 1],
+      [2, 2],
+    ]);
+  });
+
+  test("The 'all' method returns an array with all values", () => {
+    const expected = [
+      [0, 0],
+      [1, 1],
+      [2, 2],
+    ];
+    expect(list.all()).toEqual(expected);
+  });
+
+  test("You cannot change the internal state from the returned list", () => {
+    expect(list.contains([[0, 0]])).toBeTruthy();
+    const coords = list.all();
+    coords[0] = null;
+    expect(list.contains([[0, 0]])).toBeTruthy();
+  });
+});
