@@ -1,5 +1,6 @@
 import coordinateList from "./coordinateList";
 import CoordinateGenerator from "./CoordinateGenerator";
+import getBufferCoords from "./getBufferCoords";
 
 /**
  * This module generates the coordinates to randomly place ships on the
@@ -11,8 +12,10 @@ import CoordinateGenerator from "./CoordinateGenerator";
  */
 
 export default function shipCoordinateGenerator() {
-  const _coordinateList = coordinateList();
+  const _shipCoordinates = coordinateList();
+  const _shipBufferCoordinates = coordinateList();
   const coordGenerator = new CoordinateGenerator();
+  const _getBufferCoords = getBufferCoords;
 
   const _ships = {
     carrier: { length: 5, orientation: _getRandomOrientation() },
@@ -100,9 +103,16 @@ export default function shipCoordinateGenerator() {
           }
         }
       }
-    } while (_coordinateList.contains(shipCoords));
+    } while (
+      _shipCoordinates.contains(shipCoords) ||
+      _shipBufferCoordinates.contains(shipCoords)
+    );
 
-    _coordinateList.add(shipCoords);
+    _shipCoordinates.add(shipCoords);
+
+    const shipCoordinates = coordinateList(shipCoords);
+    const bufferCoords = getBufferCoords(shipCoordinates).all();
+    _shipBufferCoordinates.add(bufferCoords);
 
     return shipCoords;
   }
@@ -121,7 +131,7 @@ export default function shipCoordinateGenerator() {
        * [0,0] and [9,9] (including [0,0] and [9,9]);
        */
       uniqueCoordinate = [coordGenerator.getCoords()]; // [[int, int]]
-    } while (_coordinateList.contains(uniqueCoordinate));
+    } while (_shipCoordinates.contains(uniqueCoordinate));
     return uniqueCoordinate;
   }
   return { getShipCoords };
