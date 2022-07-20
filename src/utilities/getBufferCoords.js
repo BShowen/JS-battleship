@@ -1,4 +1,4 @@
-import coordinateList from "../game_modules/coordinateList";
+import coordinateList from "./coordinateList";
 
 /**
  * This method returns an instance of coordinateList.js, populated with the

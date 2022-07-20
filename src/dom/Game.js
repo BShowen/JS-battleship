@@ -1,6 +1,6 @@
 import Player from "./Player";
 import GameMenu from "./GameMenu";
-import AI from "../AI/AI";
+import AI from "../game_modules/AI";
 
 export default class Game {
   // The iterator used to determine who's turn it is.

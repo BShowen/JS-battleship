@@ -1,7 +1,7 @@
 import Player from "../dom/Player";
-import shipCoordinateGenerator from "./shipCoordinateGenerator";
-import CoordinateGenerator from "./CoordinateGenerator";
-import SmartGuesser from "./SmartGuesser";
+import shipCoordinateGenerator from "../utilities/shipCoordinateGenerator";
+import CoordinateGenerator from "../utilities/CoordinateGenerator";
+import SmartGuesser from "../utilities/SmartGuesser";
 
 /**
  * The AI class extends the Player.js class and adds functionality to it.

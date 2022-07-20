@@ -1,4 +1,4 @@
-import coordinateList from "../game_modules/coordinateList";
+import coordinateList from "./coordinateList";
 import CoordinateGenerator from "./CoordinateGenerator";
 
 /**

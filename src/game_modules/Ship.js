@@ -1,4 +1,4 @@
-import coordinateList from "./coordinateList";
+import coordinateList from "../utilities/coordinateList";
 import getBufferCoords from "../utilities/getBufferCoords";
 
 export default class Ship {

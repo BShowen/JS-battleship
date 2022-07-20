@@ -1,5 +1,5 @@
 import getBufferCoords from "./getBufferCoords";
-import coordinateList from "../game_modules/coordinateList";
+import coordinateList from "./coordinateList";
 
 describe("Test the getBufferCoordinates() method", () => {
   let verticalShip;

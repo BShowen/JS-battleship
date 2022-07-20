@@ -6,7 +6,7 @@ import ShipSelector from "./ShipSelector";
 import { HtmlElement } from "@bshowen/htmlelement";
 import FleetStatus from "./FleetStatus";
 import playerNameComponent from "./playerNameComponent";
-import shipCoordinateGenerator from "./../AI/shipCoordinateGenerator";
+import shipCoordinateGenerator from "../utilities/shipCoordinateGenerator";
 
 /**
  * This is a representation of the game board in the DOM. This is the class that

@@ -1,5 +1,5 @@
 import Ship from "./Ship";
-import coordinateList from "./coordinateList";
+import coordinateList from "../utilities/coordinateList";
 
 export default class GameBoard {
   /**

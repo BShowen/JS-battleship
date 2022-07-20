@@ -1,4 +1,4 @@
-import arrayEquality from "../arrayEquality";
+import arrayEquality from "./arrayEquality";
 
 export default class SmartGuesser {
   #initialDirectHit;

@@ -1,4 +1,4 @@
-import coordinateList from "../game_modules/coordinateList.js";
+import coordinateList from "./coordinateList.js";
 
 /**
  * This class is responsible for generating a unique coordinate. Thats all that
