@@ -36,6 +36,10 @@ export default function shipCoordinateGenerator() {
     // Get the ship details
     const ship = _ships[shipName];
 
+    /**
+     * This will be the final coordinates for this particular ship.
+     * shipCoords = [[int, int], [int, int],...[int, int]]
+     */
     let shipCoords;
 
     do {
@@ -104,12 +108,27 @@ export default function shipCoordinateGenerator() {
         }
       }
     } while (
+      /**
+       * If _shipCoordinates contains shipCoords then we need to start over
+       * because there is already a ship at the spot where this ship is trying
+       * to be placed.
+       */
       _shipCoordinates.contains(shipCoords) ||
+      /**
+       * If _shipBufferCoordinates contains shipCoords then we need to start
+       * over because that means this ship is trying to be placed on the board
+       * in a spot where it would touch another ship.
+       */
       _shipBufferCoordinates.contains(shipCoords)
     );
 
+    // Store the coords so that future ships cant be placed here.
     _shipCoordinates.add(shipCoords);
 
+    /**
+     *  Store the buffer coordinates so that future ships cant be placed where
+     * they're touching this ship.
+     */
     const shipCoordinates = coordinateList(shipCoords);
     const bufferCoords = getBufferCoords(shipCoordinates).all();
     _shipBufferCoordinates.add(bufferCoords);
