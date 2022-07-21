@@ -49,32 +49,20 @@ export default class GameMenu {
       return container;
     }
 
-    function transition() {
-      root.classList.toggle("game-in-progress");
-    }
-
     function removeBackground() {
       root.classList.remove("main-menu");
     }
 
     function playTwoPlayerGame() {
-      transition();
-      setTimeout(() => {
-        removeBackground();
-        container.remove();
-        game.startGame();
-        transition();
-      }, 600);
+      removeBackground();
+      container.remove();
+      game.startGame();
     }
 
     function playAgainstAI() {
-      transition();
-      setTimeout(() => {
-        removeBackground();
-        container.remove();
-        game.startGame({ singlePlayer: true });
-        transition();
-      }, 600);
+      removeBackground();
+      container.remove();
+      game.startGame({ singlePlayer: true });
     }
 
     menuElement.appendChild(new Button("Single player", playAgainstAI));
