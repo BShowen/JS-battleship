@@ -30,13 +30,15 @@ export default class Player {
   // This is the HTML node element where all DOM elements are rendered.
   #container = new HtmlElement({
     type: "div",
-    classList: ["board"],
+    classList: ["board-container"],
   });
+
+  #boardGameContainer = new HtmlElement({ type: "div", classList: ["board"] });
 
   // parentNode = The container where this class inserts itself into the DOM.
   #parentNode;
 
-  constructor(displayName, toggleTurn, parentNode) {
+  constructor(displayName, toggleTurn, parentNode, displayProperties = {}) {
     // displayName = A string which is displayed above the board.
     this.name = displayName;
 
@@ -47,6 +49,13 @@ export default class Player {
     this.#parentNode = parentNode;
 
     this.#container.appendChild(playerNameComponent(displayName));
+    if (displayProperties.screenSide === "left") {
+      this.screenSide = "left";
+      this.#container.classList.add("board-container-left-side");
+    } else {
+      this.screenSide = "right";
+      this.#container.classList.add("board-container-right-side");
+    }
 
     /**
      * This method is passed into Square.js as a callback. So I need to set the
@@ -88,7 +97,7 @@ export default class Player {
 
   // Disable clicking on this board.
   disableClick() {
-    this.#container.classList.add("disabled");
+    this.#boardGameContainer.classList.add("disabled");
     this.#boardSquares.forEach((row) => {
       row.forEach((square) => square.disable());
     });
@@ -96,7 +105,7 @@ export default class Player {
 
   // Enable clicking on this board.
   enableClick() {
-    this.#container.classList.remove("disabled");
+    this.#boardGameContainer.classList.remove("disabled");
     this.#boardSquares.forEach((row) => {
       row.forEach((square) => square.enable());
     });
@@ -206,8 +215,9 @@ export default class Player {
       this.#boardRows.push(rowElement);
 
       // Add this row to the DOM
-      this.#container.appendChild(rowElement);
+      this.#boardGameContainer.appendChild(rowElement);
     }
+    this.#container.appendChild(this.#boardGameContainer);
   }
 
   /**
@@ -218,7 +228,7 @@ export default class Player {
   render() {
     this.renderBoard();
     if (this.fleetStatus) {
-      this.fleetStatus.render();
+      this.fleetStatus.render(this.#container);
     }
     this.#parentNode.appendChild(this.#container);
   }
@@ -245,7 +255,7 @@ export default class Player {
      * FleetStatus which will be passed into Square. Square will update
      * FleetStatus whenever a ship is hit.
      */
-    this.fleetStatus = new FleetStatus();
+    this.fleetStatus = new FleetStatus({ screenSide: this.screenSide });
     this.#container.remove();
   }
 }

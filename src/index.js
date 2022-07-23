@@ -12,13 +12,24 @@ const app = (() => {
     id: "boards-container",
   });
 
+  const game = new Game(boardsContainer);
+
+  const singlePlayerGame = () => {
+    appRoot.appendChild(boardsContainer);
+    game.startGame({ singlePlayer: true });
+  };
+
+  const twoPlayerGame = () => {
+    appRoot.appendChild(boardsContainer);
+    game.startGame();
+  };
+
   const fleetStatusContainer = new HtmlElement({
     type: "div",
     id: "fleet-status-container",
   });
 
-  appRoot.appendChild(boardsContainer);
-  appRoot.appendChild(fleetStatusContainer);
+  // appRoot.appendChild(fleetStatusContainer);
 
-  GameMenu.renderGameSelectionMenu(appRoot, new Game(boardsContainer));
+  GameMenu.renderGameSelectionMenu(appRoot, singlePlayerGame, twoPlayerGame);
 })();

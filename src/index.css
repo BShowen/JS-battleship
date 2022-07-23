@@ -30,6 +30,5 @@ body {
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: center;
-  gap: 100px;
   padding: 10px;
 }

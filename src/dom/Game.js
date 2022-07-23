@@ -122,13 +122,19 @@ export default class Game {
     if (gameOptions.singlePlayer) {
       // Playing against AI.
       this.players = [
-        new Player("Player One", this.#toggleTurn, this.parentNode),
-        new AI(this.#toggleTurn, this.parentNode),
+        new Player("Player One", this.#toggleTurn, this.parentNode, {
+          screenSide: "left",
+        }),
+        new AI(this.#toggleTurn, this.parentNode, { screenSide: "right" }),
       ];
     } else {
       this.players = [
-        new Player("Player One", this.#toggleTurn, this.parentNode),
-        new Player("Player Two", this.#toggleTurn, this.parentNode),
+        new Player("Player One", this.#toggleTurn, this.parentNode, {
+          screenSide: "left",
+        }),
+        new Player("Player Two", this.#toggleTurn, this.parentNode, {
+          screenSide: "right",
+        }),
       ];
     }
     /**

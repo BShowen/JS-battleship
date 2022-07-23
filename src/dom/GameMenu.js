@@ -21,10 +21,10 @@ export default class GameMenu {
 
   /**
    * root = The container where this component should insert itself.
-   * game = An instance of the game. game.startGame() is called when a player
-   * selects "single player" or "two player".
+   * singlePlayerGame = A callback to start a single player game
+   * twoPlayerGame = A callback to start a two player game
    */
-  static renderGameSelectionMenu(root, game) {
+  static renderGameSelectionMenu(root, singlePlayerGame, twoPlayerGame) {
     const container = new HtmlElement({
       type: "div",
       id: "game-menu-container",
@@ -56,13 +56,13 @@ export default class GameMenu {
     function playTwoPlayerGame() {
       removeBackground();
       container.remove();
-      game.startGame();
+      twoPlayerGame();
     }
 
     function playAgainstAI() {
       removeBackground();
       container.remove();
-      game.startGame({ singlePlayer: true });
+      singlePlayerGame();
     }
 
     menuElement.appendChild(new Button("Single player", playAgainstAI));

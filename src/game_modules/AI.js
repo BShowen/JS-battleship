@@ -21,8 +21,8 @@ export default class AI extends Player {
    * the opponents class. The opponent will receive their attacks via this
    * method when battling against the AI.
    */
-  constructor(toggleTurn, parentNode) {
-    super("AI", toggleTurn, parentNode);
+  constructor(toggleTurn, parentNode, displayProperties) {
+    super("AI", toggleTurn, parentNode, displayProperties);
 
     this.#shipCoordGenerator = shipCoordinateGenerator();
   }

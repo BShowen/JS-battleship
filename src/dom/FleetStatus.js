@@ -8,7 +8,13 @@ export default class FleetStatus {
   // A list of all the ships.
   #shipList;
 
-  constructor() {
+  constructor(displayProperties = {}) {
+    if (displayProperties.screenSide == "left") {
+      this.#container.classList.add("fleet-container-left-side");
+    } else {
+      this.#container.classList.add("fleet-container-right-side");
+    }
+
     this.#shipList = [
       new MockShip("carrier", this.#container),
       new MockShip("battleship", this.#container),
@@ -25,8 +31,8 @@ export default class FleetStatus {
       }
     }
   }
-  render() {
-    const parentNode = document.getElementById("fleet-status-container");
+
+  render(parentNode) {
     this.#shipList.forEach((shipElement) => shipElement.render());
     parentNode.appendChild(this.#container);
   }
@@ -69,7 +75,7 @@ class MockShip {
   #shipBody() {
     const body = new HtmlElement({
       type: "div",
-      classList: ["ship-body"],
+      classList: ["ship-body", "status-ship"],
     });
     return body;
   }
