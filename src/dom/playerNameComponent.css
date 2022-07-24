@@ -8,6 +8,8 @@
 .display-name > p {
   margin: 0;
   font-size: 3.5rem;
+  font-weight: bolder;
+  color: #D8A631;
 }
 
 .display-name-left-side{

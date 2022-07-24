@@ -5,13 +5,13 @@
 }
 
 .fill-ship-position {
-  background-color: cadetblue;
+  background-color: #1B9AAA;
 }
 
 .fill-missed-strike {
-  background-color: #828282;
+  background-color: #5C5D67;
 }
 
 .fill-ship-hit{
-  background-color: #ff3dd8;
+  background-color: #EF476F;
 }
