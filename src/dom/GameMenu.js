@@ -3,20 +3,33 @@ import { HtmlElement } from "@bshowen/htmlelement";
 import Toast from "./Toast";
 
 export default class GameMenu {
-  static toast(message) {
-    if (message == undefined) return;
-
+  static getToastContainer() {
     // Find or create the container for the toast messages to populate.
-    const toastContainer =
-      document.querySelector("#toast-container") ||
-      new HtmlElement({
+    let toastContainer = document.querySelector("#toast-container");
+
+    if (!toastContainer) {
+      toastContainer = new HtmlElement({
         type: "div",
         id: "toast-container",
       });
-    document.body.appendChild(toastContainer);
+      document.body.appendChild(toastContainer);
+    }
+
+    return toastContainer;
+  }
+
+  static toast(message, options) {
+    if (message == undefined) return;
+
+    const toastContainer = this.getToastContainer();
 
     // Create the toast message and render it in the toast container.
-    new Toast(message).render(toastContainer);
+    new Toast(message, options).render(toastContainer);
+  }
+
+  static persistentToast(message) {
+    let options = { persist: true };
+    this.toast(message, options);
   }
 
   /**

@@ -69,6 +69,7 @@ export default class Game {
       this.#nextTurn();
     } else {
       this.#endGame();
+      GameMenu.persistentToast("Game over");
     }
   }
 

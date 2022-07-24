@@ -13,7 +13,8 @@ export default class Toast {
 
   #toastText;
 
-  constructor(message) {
+  constructor(message, options = { persist: false }) {
+    this.options = options;
     this.#toastText = new HtmlElement({ type: "p", innerText: message });
     this.#container.appendChild(this.#toastText);
 
@@ -30,6 +31,9 @@ export default class Toast {
 
   render(rootNode) {
     rootNode.appendChild(this.#container);
+
+    if (this.options.persist) return; //Don't remove this toast.
+
     // Remove the toast message after 1.5 seconds.
     setTimeout(() => {
       this.remove();
