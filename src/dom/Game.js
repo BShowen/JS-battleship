@@ -109,7 +109,7 @@ export default class Game {
    */
   #endGame() {
     const winner = this.#nextPlayer().name;
-    if (winner == "AI") {
+    if (winner == "Computer") {
       GameMenu.persistentToast("You lost!");
     } else {
       GameMenu.persistentToast("You won!");

@@ -22,7 +22,7 @@ export default class AI extends Player {
    * method when battling against the AI.
    */
   constructor(toggleTurn, parentNode, displayProperties) {
-    super("AI", toggleTurn, parentNode, displayProperties);
+    super("Computer", toggleTurn, parentNode, displayProperties);
 
     this.#shipCoordGenerator = shipCoordinateGenerator();
   }
