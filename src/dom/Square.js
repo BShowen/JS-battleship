@@ -43,12 +43,12 @@ export default class Square {
      * the player to drag and drop their ships onto it.
      */
     if (shipSelector != null) {
-      this.#toggleShipPosition();
+      this.toggleShipPosition();
     }
   }
 
   // Color in this square if there is a ship on it.
-  #toggleShipPosition() {
+  toggleShipPosition() {
     if (this.gameBoard.isShipPosition(this.coords)) {
       this.container.classList.add("fill-ship-position");
     }

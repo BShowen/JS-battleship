@@ -69,6 +69,12 @@ export default class Player {
     this.receiveAttack = this.receiveAttack.bind(this);
   }
 
+  showPositions() {
+    this.#boardSquares.forEach((row) => {
+      row.forEach((square) => square.toggleShipPosition());
+    });
+  }
+
   // coords = [int, int]
   receiveAttack(coords) {
     const [row, column] = coords;

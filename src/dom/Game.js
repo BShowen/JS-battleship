@@ -115,7 +115,10 @@ export default class Game {
       GameMenu.persistentToast("You won!");
     }
     // Disable clicks on both players boards - the game is over.
-    this.players.forEach((player) => player.disableClick());
+    this.players.forEach((player) => {
+      player.disableClick();
+      player.showPositions();
+    });
   }
 
   /**
