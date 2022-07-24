@@ -1,7 +1,7 @@
 import { HtmlElement } from "@bshowen/htmlelement";
 import Ship from "./Ship";
 import rootNode from "../rootNode";
-import "./shipSelector.css";
+import "./ShipSelector.css";
 import randomizer from "./randomizer";
 import shipsContainer from "./shipsContainer";
 

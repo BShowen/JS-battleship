@@ -1,4 +1,4 @@
-import "./fleetStatus.css";
+import "./FleetStatus.css";
 import { HtmlElement } from "@bshowen/htmlelement";
 
 export default class FleetStatus {
