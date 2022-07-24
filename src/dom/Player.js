@@ -48,7 +48,9 @@ export default class Player {
 
     this.#parentNode = parentNode;
 
-    this.#container.appendChild(playerNameComponent(displayName));
+    this.#container.appendChild(
+      playerNameComponent(displayName, displayProperties)
+    );
     if (displayProperties.screenSide === "left") {
       this.screenSide = "left";
       this.#container.classList.add("board-container-left-side");

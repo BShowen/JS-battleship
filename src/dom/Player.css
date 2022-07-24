@@ -1,16 +1,21 @@
 .board-container {
   display: grid;
+  grid-template-rows: 1fr 550px;
   padding: 5px;
 }
 
 .board {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 10px;
   border-radius: 5px;
+  height: min-content;
+  width: min-content;
 }
 
 .board-container-right-side {
-  grid-template-columns: 7fr 1fr;
-  grid-template-rows: 1fr 7fr;
+  grid-template-columns: 550px 1fr;
 }
 
 .board-container-right-side > .board {
@@ -19,8 +24,7 @@
 }
 
 .board-container-left-side {
-  grid-template-columns: 1fr 7fr;
-  grid-template-rows: 1fr 7fr;
+  grid-template-columns: 1fr 550px;
 }
 
 .board-container-left-side > .board {

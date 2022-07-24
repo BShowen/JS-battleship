@@ -1,12 +1,19 @@
 .display-name{
-  width: 100%;
   display: flex;
   justify-content: center;
-  grid-column: 1 / 3;
   grid-row: 1 / 2;
+  margin-bottom: 10px;
 }
 
 .display-name > p {
   margin: 0;
   font-size: 3.5rem;
+}
+
+.display-name-left-side{
+  grid-column: 2 / 3;
+}
+
+.display-name-right-side{
+  grid-column: 1 / 2;
 }
