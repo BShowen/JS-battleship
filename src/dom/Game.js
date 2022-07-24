@@ -108,12 +108,8 @@ export default class Game {
    * called when a player dies. This function is responsible for ending the game
    */
   #endGame() {
-    const winner = this.#nextPlayer().name;
-    if (winner == "Computer") {
-      GameMenu.persistentToast("You lost!");
-    } else {
-      GameMenu.persistentToast("You won!");
-    }
+    const winnerName = this.#nextPlayer().name;
+    GameMenu.persistentToast(`Winner: ${winnerName}`);
     // Disable clicks on both players boards - the game is over.
     this.players.forEach((player) => {
       player.disableClick();
