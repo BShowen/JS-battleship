@@ -69,7 +69,6 @@ export default class Game {
       this.#nextTurn();
     } else {
       this.#endGame();
-      GameMenu.persistentToast("Game over");
     }
   }
 
@@ -109,8 +108,12 @@ export default class Game {
    * called when a player dies. This function is responsible for ending the game
    */
   #endGame() {
-    console.log(`${this.#nextPlayer().name} is the winner!`);
-
+    const winner = this.#nextPlayer().name;
+    if (winner == "AI") {
+      GameMenu.persistentToast("You lost!");
+    } else {
+      GameMenu.persistentToast("You won!");
+    }
     // Disable clicks on both players boards - the game is over.
     this.players.forEach((player) => player.disableClick());
   }
