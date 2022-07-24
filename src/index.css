@@ -9,6 +9,10 @@ body {
 }
 
 #app {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
   min-height: 100vh;
   margin: 0;
   padding-top: 50px;

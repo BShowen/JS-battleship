@@ -1,6 +1,6 @@
 .board-container {
   display: grid;
-  grid-template-rows: 1fr 550px;
+  grid-template-rows: 100px 550px;
   padding: 5px;
 }
 
