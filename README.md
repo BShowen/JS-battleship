@@ -1,3 +1,5 @@
+![Battleship screenshot](https://github.com/BShowen/JS-battleship/blob/main/readmeImages/screenshot.png "Battleship")
+
 ## Project: Create the game Battleship
 I built the game Battleship using vanilla JavaScript. 
 ###### View this app live [here](https://bshowen.github.io/JS-battleship/)
